@@ -1,18 +1,18 @@
-import React from "react";
-import { Spacer, Flex } from "@chakra-ui/react";
+import React, { useState, useEffect } from "react";
 
-import { Header, Main, Cards, Footer } from "@components";
+import { LogoBlank, LogoTransition } from "@components";
 
-const Home: React.FC = () => {
-  return (
-    <Flex direction="column" minH="100vh">
-      <Header />
-      <Main />
-      <Cards />
-      <Spacer />
-      <Footer />
-    </Flex>
-  );
+const Main: React.FC = () => {
+    useEffect(() => { document.body.style.overflow = "hidden"; });
+
+    const [done, setDone] = useState(false);
+    setTimeout(() => setDone(true), 10000);
+
+    return (
+        <React.Fragment>
+            {!done && <LogoBlank fillBall={true} />}
+        </React.Fragment>
+    );
 };
 
-export default Home;
+export default Main;
