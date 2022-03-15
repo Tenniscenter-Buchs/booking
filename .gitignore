@@ -6,3 +6,7 @@ node_modules
 .env
 .env.*
 !.env.example
+.idea
+
+cypress/videos
+cypress/screenshots

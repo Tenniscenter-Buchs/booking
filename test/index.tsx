@@ -1,8 +1,8 @@
 import React, { ReactElement } from "react";
 import {
-  render as baseRender,
-  RenderOptions,
-  RenderResult,
+    render as baseRender,
+    RenderOptions,
+    RenderResult,
 } from "@testing-library/react";
 
 import { ChakraProvider } from "@chakra-ui/react";
@@ -18,18 +18,18 @@ import store from "@redux/store";
  * please visit https://testing-library.com/docs/react-testing-library/setup
  */
 
-export const AllTheProviders = ({ children }) => {
-  return (
-    <>
-      <ChakraProvider theme={theme}>
-        <Provider store={store}>{children}</Provider>
-      </ChakraProvider>
-    </>
-  );
+export const AllTheProviders:React.FC = ({ children }) => {
+    return (
+        <>
+            <ChakraProvider theme={theme}>
+                <Provider store={store}>{children}</Provider>
+            </ChakraProvider>
+        </>
+    );
 };
 
 const render = (ui: ReactElement, options?: Omit<RenderOptions, "queries">) =>
-  baseRender(ui, { wrapper: AllTheProviders, ...options }) as RenderResult;
+    baseRender(ui, { wrapper: AllTheProviders, ...options }) as RenderResult;
 
 // re-export everything
 export * from "@testing-library/react";

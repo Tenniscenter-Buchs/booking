@@ -1,3 +1,8 @@
+| master       | develop   |
+|--------------|-----------|
+| [![unit](https://github.com/Tenniscenter-Buchs/booking/actions/workflows/unit.yml/badge.svg?branch=master)](https://github.com/Tenniscenter-Buchs/booking/actions/workflows/unit.yml) | [![unit](https://github.com/Tenniscenter-Buchs/booking/actions/workflows/unit.yml/badge.svg?branch=develop)](https://github.com/Tenniscenter-Buchs/booking/actions/workflows/unit.yml) |
+| [![e2e](https://github.com/Tenniscenter-Buchs/booking/actions/workflows/e2e.yml/badge.svg?branch=master)](https://github.com/Tenniscenter-Buchs/booking/actions/workflows/e2e.yml) | [![e2e](https://github.com/Tenniscenter-Buchs/booking/actions/workflows/e2e.yml/badge.svg?branch=develop)](https://github.com/Tenniscenter-Buchs/booking/actions/workflows/e2e.yml) |
+
 # booking
 
 
@@ -12,19 +17,19 @@ superplate is a Next.js all-in-one project generator. Create your project with t
 ### Running the development server.
 
 ```bash
-    npm run dev
+npm run dev
 ```
 
 ### Building for production.
 
 ```bash
-    npm run build
+npm run build
 ```
 
 ### Running the production server.
 
 ```bash
-    npm run start
+npm run start
 ```
 
 ## Learn More
@@ -104,12 +109,12 @@ Fast, easy and reliable testing for anything that runs in a browser.
 
 ### **Github Actions**
 
-GitHub Actions makes it easy to automate all your software workflows, now with world-class CI/CD. Build, test, and deploy your code right from GitHub.
+    GitHub Actions makes it easy to automate all your software workflows, now with world-class CI/CD. Build, test, and deploy your code right from GitHub.
 
-[Go To Documentation](https://docs.github.com/en/actions)
+    [Go To Documentation](https://docs.github.com/en/actions)
 
 
 
 ## License
 
-MIT
+    MIT
