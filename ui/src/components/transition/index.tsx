@@ -3,12 +3,11 @@ import React, {useEffect, useState} from "react";
 // @ts-ignore
 import SvgLines from 'react-mt-svg-lines';
 
-import {Box, Center, ScaleFade} from '@chakra-ui/react'
-import {useUnmountEffect} from '@chakra-ui/react';
+import {Box, Center, ScaleFade, useUnmountEffect, useTheme, useColorModeValue} from '@chakra-ui/react'
 
-export const LogoTransition = ({scale, strokeWidth, animationTime, numRepeats, fillText, fillBall}: {
+export const LogoTransition = ({scale, strokeWidth, animationTime, numRepeats, fillText, fillBall, setDone}: {
     scale?: number, strokeWidth?: number,
-    animationTime?: number, numRepeats?: number, fillText?: boolean, fillBall?: boolean
+    animationTime?: number, numRepeats?: number, fillText?: boolean, fillBall?: boolean, setDone: Function
 }) => {
     if (!scale) {
         scale = 1;
@@ -21,7 +20,11 @@ export const LogoTransition = ({scale, strokeWidth, animationTime, numRepeats, f
     }
     if (numRepeats) {
         numRepeats *= 2;
+        setTimeout(() => setDone(true), numRepeats * 0.8 * animationTime);
     }
+
+    const theme = useTheme();
+    const letterBFillColor =  useColorModeValue("#ffffff", theme["background"]);
 
     let animation =
         <SvgLines animate={true} fade={true} timing={"ease-in-out"} stagger={15}
@@ -43,7 +46,7 @@ export const LogoTransition = ({scale, strokeWidth, animationTime, numRepeats, f
                     292.55,229.91 314.55,198.36 295.82,189.09
                     296.08,185.08 295.98,186.63 296.00,186.27 Z" />
                 <path id="B1-inner"
-                    fill={fillText ? "#ffffff" : "none"} stroke="#1a99d6" strokeWidth={strokeWidth}
+                    fill={fillText ? letterBFillColor : "none"} stroke="#1a99d6" strokeWidth={strokeWidth}
                     d="M 271.44,215.94
                     C 271.44,215.94 275.81,215.75 275.81,215.75
                     275.81,215.75 281.12,193.19 281.12,193.19
@@ -290,18 +293,18 @@ export const LogoTransition = ({scale, strokeWidth, animationTime, numRepeats, f
                 <path id="T2"
                     fill={fillText ? "#1a99d6" : "none"} stroke="#1a99d6" strokeWidth={strokeWidth}
                     d="M 431.12,137.00
-            C 431.12,137.00 452.75,137.00 452.75,137.00
-            452.75,137.00 465.50,88.62 465.50,88.62
-            465.50,88.62 479.78,88.52 479.78,88.52
-            479.78,88.52 485.04,68.04 485.04,68.04
-            485.04,68.04 472.12,68.00 472.12,68.00
-            472.12,68.00 476.25,52.12 476.25,52.12
-            476.25,52.12 454.12,51.88 454.12,51.88
-            454.12,51.88 449.38,68.38 449.38,68.38
-            449.38,68.38 437.00,68.50 437.00,68.50
-            437.00,68.50 432.00,88.12 432.00,88.12
-            432.00,88.12 444.38,87.88 444.38,87.88
-            444.38,87.88 431.12,137.00 431.12,137.00 Z" />
+                    C 431.12,137.00 452.75,137.00 452.75,137.00
+                    452.75,137.00 465.50,88.62 465.50,88.62
+                    465.50,88.62 479.78,88.52 479.78,88.52
+                    479.78,88.52 485.04,68.04 485.04,68.04
+                    485.04,68.04 472.12,68.00 472.12,68.00
+                    472.12,68.00 476.25,52.12 476.25,52.12
+                    476.25,52.12 454.12,51.88 454.12,51.88
+                    454.12,51.88 449.38,68.38 449.38,68.38
+                    449.38,68.38 437.00,68.50 437.00,68.50
+                    437.00,68.50 432.00,88.12 432.00,88.12
+                    432.00,88.12 444.38,87.88 444.38,87.88
+                    444.38,87.88 431.12,137.00 431.12,137.00 Z" />
                 <path id="U1"
                     fill={fillText ? "#1a99d6" : "none"} stroke="#1a99d6" strokeWidth={strokeWidth}
                     d="M 365.91,159.91
@@ -315,18 +318,20 @@ export const LogoTransition = ({scale, strokeWidth, animationTime, numRepeats, f
                     319.91,230.00 340.55,229.91 340.55,229.91
                     340.55,229.91 347.36,229.45 349.91,220.00
                     352.45,210.55 365.91,159.91 365.91,159.91 Z" />
-                        <path id="vertical-line"
-                            fill={fillText ? "#151515" : "none"} stroke="#151515" strokeWidth={strokeWidth}
-                            d="M 300.22,0.06
-                            C 300.22,0.06 219.78,290.84 219.78,290.84
-                            219.78,290.84 222.97,290.89 222.97,290.89
-                            222.97,290.89 303.61,0.08 303.61,0.08
-                            303.61,0.08 300.22,0.06 300.22,0.06 Z" />
+                <path id="vertical-line"
+                    fill={fillText ? "#151515" : "none"} stroke="#151515" strokeWidth={strokeWidth}
+                    d="M 300.22,0.06
+                    C 300.22,0.06 219.78,290.84 219.78,290.84
+                    219.78,290.84 222.97,290.89 222.97,290.89
+            222.97,290.89 303.61,0.08 303.61,0.08
+            303.61,0.08 300.22,0.06 300.22,0.06 Z" />
         </svg>
         </SvgLines>;
 
     const [mounted, setMounted] = useState(true);
     useUnmountEffect(() => { setMounted(!mounted); }, [mounted]);
+    useEffect(() => { if (mounted) document.body.style.overflow = "hidden"; }, [mounted]);
+    useUnmountEffect(() => { document.body.style.overflow = "auto"; })
 
     animation =
         <ScaleFade initialScale={0.9} in={mounted} >
@@ -344,11 +349,11 @@ export const LogoTransition = ({scale, strokeWidth, animationTime, numRepeats, f
     )
 };
 
-export const LogoBlank = ({animationTime, fillText, fillBall}: {
-    animationTime?: number, fillText?: boolean, fillBall?: boolean
+export const LogoBlank = ({animationTime, fillText, fillBall, setDone}: {
+    animationTime?: number, fillText?: boolean, fillBall?: boolean, setDone: Function
 }) => {
     if (!animationTime) {
         animationTime = 3000;
     }
-    return <LogoTransition numRepeats={1} animationTime={animationTime} fillText={fillText} fillBall={fillBall} />;
+    return <LogoTransition numRepeats={1} animationTime={animationTime} fillText={fillText} fillBall={fillBall} setDone={setDone} />;
 }
