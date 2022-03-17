@@ -1,37 +1,37 @@
 name: e2e
 
 on:
-    push:
+  push:
     pull_request:
 
-jobs:
-    e2e:
-        runs-on: ${{ matrix.os }}
+      jobs:
+        e2e:
+          runs-on: ${{ matrix.os }}
 
         strategy:
-            matrix:
-                os: [ubuntu-latest]
-                node: [16]
+          matrix:
+            os: [ubuntu-latest]
+            node: [16]
 
         steps:
-            - name: Checkout
-              uses: actions/checkout@master
-              with:
-                  submodules: 'recursive'
+          - name: Checkout
+            uses: actions/checkout@master
+            with:
+              submodules: 'recursive'
 
-            - name: Setup node env
-              uses: actions/setup-node@v2.1.2
-              with:
-                  node-version: ${{ matrix.node }}
+          - name: Setup node env
+            uses: actions/setup-node@v2.1.2
+            with:
+              node-version: ${{ matrix.node }}
 
-            - name: Install dependencies
-              run: npm i
+          - name: Install dependencies
+            run: npm i
 
-            - name: Install test dependencies
-              run: npm ci
+          - name: Install test dependencies
+            run: npm ci --workspace ui
 
-            - name: Run production build
-              run: npm run build
+          - name: Run production build
+            run: npm run build --workspace ui
 
-            - name: Run end-to-end tests
-              run: npm run cypress:test
+          - name: Run end-to-end tests
+            run: npm run cypress:test --workspace ui
