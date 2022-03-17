@@ -13,6 +13,7 @@
     },
     "dependencies": {
         "@chakra-ui/react": "^1.1.4",
+        "@choc-ui/logo": "^1.0.0",
         "@emotion/react": "^11.1.4",
         "@emotion/styled": "^11.0.0",
         "@reduxjs/toolkit": "^1.6.0",
@@ -24,6 +25,7 @@
         "next-i18next": "^7.0.1",
         "react": "^17.0.2",
         "react-dom": "17.0.2",
+        "react-icons": "^4.3.1",
         "react-mt-svg-lines": "^0.9.1",
         "react-redux": "^7.2.4"
     },
