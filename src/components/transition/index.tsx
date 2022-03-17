@@ -323,13 +323,15 @@ export const LogoTransition = ({scale, strokeWidth, animationTime, numRepeats, f
                     d="M 300.22,0.06
                     C 300.22,0.06 219.78,290.84 219.78,290.84
                     219.78,290.84 222.97,290.89 222.97,290.89
-                    222.97,290.89 303.61,0.08 303.61,0.08
-                    303.61,0.08 300.22,0.06 300.22,0.06 Z" />
-            </svg>
+            222.97,290.89 303.61,0.08 303.61,0.08
+            303.61,0.08 300.22,0.06 300.22,0.06 Z" />
+        </svg>
         </SvgLines>;
 
     const [mounted, setMounted] = useState(true);
     useUnmountEffect(() => { setMounted(!mounted); }, [mounted]);
+    useEffect(() => { if (mounted) document.body.style.overflow = "hidden"; }, [mounted]);
+    useUnmountEffect(() => { document.body.style.overflow = "auto"; })
 
     animation =
         <ScaleFade initialScale={0.9} in={mounted} >
