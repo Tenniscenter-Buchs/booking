@@ -1,4 +1,4 @@
-name: e2e
+name: ui-e2e
 
 on:
     push:

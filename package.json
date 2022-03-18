@@ -4,7 +4,8 @@
     "description": "",
     "scripts": {
         "build": "./scripts/build.sh",
-        "start": "concurrently \"npm start --workspace ui\" \"npm run start --workspace api\""
+        "start": "concurrently -n ui,api \"npm start --workspace ui\" \"npm start --workspace api\"",
+        "dev": "concurrently -n ui,api \"npm run dev --workspace ui\" \"npm run dev --workspace api\""
     },
     "repository": {
         "type": "git",
@@ -21,10 +22,13 @@
         "api"
     ],
     "devDependencies": {
-        "@nrwl/workspace": "latest",
         "@nrwl/cli": "latest",
+        "@nrwl/nx-cloud": "latest",
         "@nrwl/tao": "latest",
-        "typescript": "4.2.4",
-        "@nrwl/nx-cloud": "latest"
+        "@nrwl/workspace": "latest",
+        "typescript": "4.2.4"
+    },
+    "dependencies": {
+        "remark": "^14.0.2"
     }
 }

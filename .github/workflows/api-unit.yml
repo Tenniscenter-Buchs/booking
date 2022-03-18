@@ -1,4 +1,4 @@
-name: unit
+name: api-unit
 
 on:
     push:
@@ -28,10 +28,10 @@ jobs:
               run: npm i
 
             - name: Install test dependencies
-              run: npm ci --workspace ui
+              run: npm ci --workspace api
 
             - name: Run production build
-              run: npm run build --workspace ui
+              run: npm run build --workspace api
 
             - name: Run unit tests
-              run: npm run test --workspace ui
+              run: npm run test --workspace api
