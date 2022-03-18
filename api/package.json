@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "description": "",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
+        "test": "echo \"no tests to run\" && exit 0",
         "build": "tsc",
         "start": "node build/index.js",
         "start:dev": "nodemon build/index.js",

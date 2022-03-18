@@ -1,9 +1,9 @@
 | master       | develop   |
 |--------------|-----------|
-| [![unit](https://github.com/Tenniscenter-Buchs/booking/actions/workflows/unit.yml/badge.svg?branch=master)](https://github.com/Tenniscenter-Buchs/booking/actions/workflows/unit.yml) | [![unit](https://github.com/Tenniscenter-Buchs/booking/actions/workflows/unit.yml/badge.svg?branch=develop)](https://github.com/Tenniscenter-Buchs/booking/actions/workflows/unit.yml) |
-| [![e2e](https://github.com/Tenniscenter-Buchs/booking/actions/workflows/e2e.yml/badge.svg?branch=master)](https://github.com/Tenniscenter-Buchs/booking/actions/workflows/e2e.yml) | [![e2e](https://github.com/Tenniscenter-Buchs/booking/actions/workflows/e2e.yml/badge.svg?branch=develop)](https://github.com/Tenniscenter-Buchs/booking/actions/workflows/e2e.yml) |
+| [![ui-unit](https://github.com/Tenniscenter-Buchs/booking/actions/workflows/ui-unit.yml/badge.svg?branch=master)](https://github.com/Tenniscenter-Buchs/booking/actions/workflows/ui-unit.yml) | [![ui-unit](https://github.com/Tenniscenter-Buchs/booking/actions/workflows/ui-unit.yml/badge.svg?branch=develop)](https://github.com/Tenniscenter-Buchs/booking/actions/workflows/ui-unit.yml) |
+| [![ui-e2e](https://github.com/Tenniscenter-Buchs/booking/actions/workflows/ui-e2e.yml/badge.svg?branch=master)](https://github.com/Tenniscenter-Buchs/booking/actions/workflows/ui-e2e.yml) | [![ui-e2e](https://github.com/Tenniscenter-Buchs/booking/actions/workflows/ui-e2e.yml/badge.svg?branch=develop)](https://github.com/Tenniscenter-Buchs/booking/actions/workflows/ui-e2e.yml) |
 
-# booking
+# booking-ui
 
 
 This project was generated with [superplate](https://github.com/pankod/superplate).
