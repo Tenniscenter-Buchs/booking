@@ -3,7 +3,8 @@
     "version": "1.0.0",
     "description": "",
     "scripts": {
-        "build": "./scripts/build.sh"
+        "build": "./scripts/build.sh",
+        "start": "concurrently \"npm start --workspace ui\" \"npm run start --workspace api\""
     },
     "repository": {
         "type": "git",
