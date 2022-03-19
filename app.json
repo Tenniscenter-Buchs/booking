@@ -1,0 +1,11 @@
+{
+    "addons": ["heroku-postgresql:hobby-dev"],
+    "buildpacks": [
+        {
+            "url": "heroku/nodejs"
+        },
+        {
+            "url": "https://buildpack-registry.s3.amazonaws.com/buildpacks/heroku-community/multi-procfile.tgz"
+        }
+    ]
+}
