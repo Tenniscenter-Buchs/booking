@@ -6,9 +6,12 @@ import { ScaleFade } from '@chakra-ui/react'
 const Main: React.FC = () => {
     const [done, setDone] = useState(false);
 
+    if (!done) {
+        return <LogoBlank fillText={true} fillBall={true} setDone={setDone} />;
+    }
+
     return (
         <React.Fragment>
-            {!done && <LogoBlank fillText={true} fillBall={true} setDone={setDone} />}
             <ScaleFade initialScale={1.0} in={done} >
                 <Header />
                 <Hero />
