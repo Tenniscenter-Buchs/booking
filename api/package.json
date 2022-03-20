@@ -6,7 +6,7 @@
         "test": "echo \"no tests to run\" && exit 0",
         "build": "tsc",
         "start": "node build/index.js",
-        "start:dev": "nodemon build/index.js",
+        "start:dev": "nodemon index.ts",
         "dev": "export DATABASE_URL=$(heroku config -a booking-staging-api | grep DATABASE_URL | awk \"{ print $2 }\") && npm run start:dev"
     },
     "author": "",
