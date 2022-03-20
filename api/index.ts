@@ -75,7 +75,7 @@ const limiter = rateLimit({
     message: 'API rate limit hit, please try again in a short moment',
 });
 
-app.use('/api/v1/', limiter, pub);
+app.use('/v1/', limiter, pub);
 
 app.get('/', (req, res) => {
     res.send('Hello world');
