@@ -5,6 +5,7 @@ import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import rateLimit from 'express-rate-limit';
 import pub from './routes/public';
+import sec from './routes/secure';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -80,6 +81,8 @@ app.use('/v1/', limiter, pub);
 app.get('/', (req, res) => {
     res.send('Hello world');
 });
+
+app.use('/v1/secure/', limiter, sec);
 
 app.listen(PORT, () => {
     console.log(`Now serving API on http://localhost:${PORT}`);
