@@ -7,7 +7,7 @@ import {Box, Center, ScaleFade, useUnmountEffect, useTheme, useColorModeValue} f
 
 export const LogoTransition = ({scale, strokeWidth, animationTime, numRepeats, fillText, fillBall, setDone}: {
     scale?: number, strokeWidth?: number,
-    animationTime?: number, numRepeats?: number, fillText?: boolean, fillBall?: boolean, setDone: Function
+    animationTime?: number, numRepeats?: number, fillText?: boolean, fillBall?: boolean, setDone?: Function
 }) => {
     if (!scale) {
         scale = 1;
@@ -20,7 +20,9 @@ export const LogoTransition = ({scale, strokeWidth, animationTime, numRepeats, f
     }
     if (numRepeats) {
         numRepeats *= 2;
-        setTimeout(() => setDone(true), numRepeats * 0.8 * animationTime);
+        if (setDone) {
+            setTimeout(() => setDone(true), numRepeats * 0.8 * animationTime);
+        }
     }
 
     const theme = useTheme();
