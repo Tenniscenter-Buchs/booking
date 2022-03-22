@@ -12,6 +12,7 @@ import {middleware} from "supertokens-node/framework/express";
 import Session from "supertokens-node/recipe/session";
 import ThirdPartyEmailPassword from "supertokens-node/recipe/thirdpartyemailpassword";
 import { errorHandler } from "supertokens-node/framework/express";
+import { appInfo } from "./config/appInfo";
 let { Google, Github, Apple } = ThirdPartyEmailPassword;
 
 const app = express();
@@ -47,11 +48,11 @@ const options = {
         servers: [
             {
                 url: 'http://localhost:5000/v1',
-                description: 'Local Integration Testing for API Version 1',
+                description: 'Local Testing for API Version 1',
             },
             {
                 url: 'https://api.staging.booking.tennis-buchs.ch/v1',
-                description: 'Public Staging Testing for API Version 1',
+                description: 'Staging Testing for API Version 1',
             },
             {
                 url: 'https://api.booking.tennis-buchs.ch/v1',
@@ -63,7 +64,7 @@ const options = {
 };
 
 const specs = swaggerJsdoc(options);
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(specs, { explorer: true }));
+app.use('/v1/docs', swaggerUi.serve, swaggerUi.setup(specs, { explorer: true }));
 
 app.use(bodyParser.json());
 app.use(
@@ -72,18 +73,25 @@ app.use(
     })
 );
 
+const connectionUri: string = process.env.SUPERTOKENS_CONNECTION_URI || "";
+const apiKey: string  = process.env.SUPERTOKENS_API_KEY || "";
+
+let uiHosts: (string | any)[] = [];
+if (process.env.UI_HOST) {
+    uiHosts.push("https://" + process.env.UI_HOST);
+} else if (process.env.REVIEW_APP) {    // Heroku Review Apps
+    uiHosts.push("https://" + process.env.HEROKU_APP_NAME?.replace("booking-api", "booking-ui") + ".herokuapp.com");
+} else { // Local environment
+    uiHosts.push("http://localhost:3000");
+}
+
 supertokens.init({
     framework: "express",
     supertokens: {
-        connectionURI: "https://try.supertokens.com",
+        connectionURI: connectionUri,
+        apiKey: apiKey
     },
-    appInfo: {
-        appName: "booking-api",
-        apiDomain: "http://localhost:5000",
-        websiteDomain: "http://localhost:3000",
-        apiBasePath: "/v1/auth",
-        websiteBasePath: "/auth"
-    },
+    appInfo,
     recipeList: [
         ThirdPartyEmailPassword.init({
             providers: [
@@ -111,7 +119,7 @@ supertokens.init({
 })
 
 app.use(cors({
-    origin: "http://localhost:3000",
+    origin: uiHosts,
     allowedHeaders: ["content-type", ...supertokens.getAllCORSHeaders()],
     credentials: true,
 }));

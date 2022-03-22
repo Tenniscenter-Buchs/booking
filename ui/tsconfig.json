@@ -37,6 +37,12 @@
             "@hooks": [
                 "src/hooks"
             ],
+            "@security/*": [
+                "src/security/*"
+            ],
+            "@security": [
+                "src/security"
+            ],
             "@public/*": [
                 "public/*"
             ],
