@@ -7,12 +7,20 @@ import rateLimit from 'express-rate-limit';
 import pub from './routes/public';
 import sec from './routes/secure';
 
+import dotenv from "dotenv";
+
 import supertokens from "supertokens-node";
 import {middleware} from "supertokens-node/framework/express";
 import Session from "supertokens-node/recipe/session";
 import ThirdPartyEmailPassword from "supertokens-node/recipe/thirdpartyemailpassword";
 import { errorHandler } from "supertokens-node/framework/express";
-import { appInfo } from "./config/appInfo";
+
+if (process.env.REVIEW_APP && process.env.NODE_ENV === 'production') {
+    dotenv.config({path: process.cwd() + "/.env"});
+} else if (process.env.NODE_ENV !== 'production') {
+    dotenv.config({path: process.cwd() + "/.env.development"});
+}
+
 let { Google, Github, Apple } = ThirdPartyEmailPassword;
 
 const app = express();
@@ -76,14 +84,11 @@ app.use(
 const connectionUri: string = process.env.SUPERTOKENS_CONNECTION_URI || "";
 const apiKey: string  = process.env.SUPERTOKENS_API_KEY || "";
 
-let uiHosts: (string | any)[] = [];
-if (process.env.UI_HOST) {
-    uiHosts.push("https://" + process.env.UI_HOST);
-} else if (process.env.REVIEW_APP) {    // Heroku Review Apps
-    uiHosts.push("https://" + process.env.HEROKU_APP_NAME?.replace("booking-api", "booking-ui") + ".herokuapp.com");
-} else { // Local environment
-    uiHosts.push("http://localhost:3000");
-}
+const herokuPrNumber: string = process.env.HEROKU_PR_NUMBER || "";
+const primaryUiHost = process.env.REVIEW_APP && process.env.UI_HOST?.replace("{PR_NUMBER}", herokuPrNumber) || process.env.UI_HOST;
+
+let uiHosts: (string | any)[] = [primaryUiHost, process.env.UI_HOST_HEROKU];
+let apiHosts: (string | any)[] = [process.env.API_HOST, process.env.API_HOST_HEROKU];
 
 supertokens.init({
     framework: "express",
@@ -91,7 +96,13 @@ supertokens.init({
         connectionURI: connectionUri,
         apiKey: apiKey
     },
-    appInfo,
+    appInfo: {
+        appName: "booking-api",
+        apiDomain: apiHosts[0],
+        websiteDomain: uiHosts[0],
+        apiBasePath: "/v1/auth",
+        websiteBasePath: "/auth"
+    },
     recipeList: [
         ThirdPartyEmailPassword.init({
             providers: [
@@ -146,7 +157,7 @@ app.use('/v1/secure/', limiter, sec);
 app.use(errorHandler())
 
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-    // TODO: Error handling
+    return err;
 });
 
 app.listen(PORT, () => {
