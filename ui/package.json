@@ -24,11 +24,14 @@
         "next": "^12.1.0",
         "next-compose-plugins": "^2.2.1",
         "next-i18next": "^7.0.1",
+        "nextjs-cors": "^2.1.0",
         "react": "^17.0.2",
         "react-dom": "17.0.2",
         "react-icons": "^4.3.1",
         "react-mt-svg-lines": "^0.9.1",
-        "react-redux": "^7.2.4"
+        "react-redux": "^7.2.4",
+        "supertokens-auth-react": "^0.19.0",
+        "supertokens-node": "^9.0.1"
     },
     "devDependencies": {
         "@testing-library/react": "^11.2.3",

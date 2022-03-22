@@ -16,6 +16,8 @@ Heroku Production API: [https://dashboard.heroku.com/apps/booking-production-api
 
 Heroku Production UI: [https://dashboard.heroku.com/apps/booking-production-ui](https://dashboard.heroku.com/apps/booking-production-ui)
 
+SuperTokens Managed Authentication Service: [https://supertokens.com/dashboard-saas](https://supertokens.com/dashboard-saas)
+
 CodeQL: [https://lgtm.com/projects/g/Tenniscenter-Buchs/booking](https://lgtm.com/projects/g/Tenniscenter-Buchs/booking)
 
 Nx Cloud: [https://nx.app/orgs/62338708a53baf0005fdf1d6/workspaces/62339a1557b4bc282e8ce8ef?withoutBranch=true](https://nx.app/orgs/62338708a53baf0005fdf1d6/workspaces/62339a1557b4bc282e8ce8ef?withoutBranch=true)
