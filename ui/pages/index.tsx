@@ -1,7 +1,17 @@
 import React, { useState, useEffect } from "react";
 
+import dynamic from 'next/dynamic'
+
 import { Header, Hero, LogoBlank, LogoTransition } from "@components";
 import { ScaleFade } from '@chakra-ui/react'
+import ThirdPartyEmailPassword from 'supertokens-auth-react/recipe/thirdpartyemailpassword'
+
+const ThirdPartyEmailPasswordAuthNoSSR = dynamic(
+    new Promise((res) =>
+        res(ThirdPartyEmailPassword.ThirdPartyEmailPasswordAuth)
+    ) as any,
+    { ssr: false }
+)
 
 const Main: React.FC = () => {
     const [done, setDone] = useState(false);
@@ -20,17 +30,21 @@ const Main: React.FC = () => {
     }
 
     if (!done) {
-        return <LogoBlank fillText={true} fillBall={true} setDone={setDone} />;
+        return (
+            <ThirdPartyEmailPasswordAuthNoSSR>
+                <LogoBlank fillText={true} fillBall={true} setDone={setDone} />
+            </ThirdPartyEmailPasswordAuthNoSSR>
+        );
     }
 
     return (
-        <React.Fragment>
+        <ThirdPartyEmailPasswordAuthNoSSR>
             <ScaleFade initialScale={1.0} in={done} >
                 <Header />
                 <Hero />
                 <a href={"http://" + apiHost}>{apiHost}</a>
             </ScaleFade>
-        </React.Fragment>
+        </ThirdPartyEmailPasswordAuthNoSSR>
     );
 };
 

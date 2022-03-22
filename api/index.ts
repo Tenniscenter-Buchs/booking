@@ -7,6 +7,13 @@ import rateLimit from 'express-rate-limit';
 import pub from './routes/public';
 import sec from './routes/secure';
 
+import supertokens from "supertokens-node";
+import {middleware} from "supertokens-node/framework/express";
+import Session from "supertokens-node/recipe/session";
+import ThirdPartyEmailPassword from "supertokens-node/recipe/thirdpartyemailpassword";
+import { errorHandler } from "supertokens-node/framework/express";
+let { Google, Github, Apple } = ThirdPartyEmailPassword;
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -65,7 +72,51 @@ app.use(
     })
 );
 
-app.use(cors());
+supertokens.init({
+    framework: "express",
+    supertokens: {
+        connectionURI: "https://try.supertokens.com",
+    },
+    appInfo: {
+        appName: "booking-api",
+        apiDomain: "http://localhost:5000",
+        websiteDomain: "http://localhost:3000",
+        apiBasePath: "/v1/auth",
+        websiteBasePath: "/auth"
+    },
+    recipeList: [
+        ThirdPartyEmailPassword.init({
+            providers: [
+                Google({
+                    clientId: "1060725074195-kmeum4crr01uirfl2op9kd5acmi9jutn.apps.googleusercontent.com",
+                    clientSecret: "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"
+                }),
+                Github({
+                    clientId: "467101b197249757c71f",
+                    clientSecret: "e97051221f4b6426e8fe8d51486396703012f5bd"
+                }),
+                Apple({
+                    clientId: "4398792-io.supertokens.example.service",
+                    clientSecret: {
+                        keyId: "7M48Y4RYDL",
+                        privateKey:
+                        "-----BEGIN PRIVATE KEY-----\nMIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgu8gXs+XYkqXD6Ala9Sf/iJXzhbwcoG5dMh1OonpdJUmgCgYIKoZIzj0DAQehRANCAASfrvlFbFCYqn3I2zeknYXLwtH30JuOKestDbSfZYxZNMqhF/OzdZFTV0zc5u5s3eN+oCWbnvl0hM+9IW0UlkdA\n-----END PRIVATE KEY-----",
+                        teamId: "YWQCXGJRJL",
+                    },
+                }),
+            ]
+        }),
+        Session.init()
+    ]
+})
+
+app.use(cors({
+    origin: "http://localhost:3000",
+    allowedHeaders: ["content-type", ...supertokens.getAllCORSHeaders()],
+    credentials: true,
+}));
+
+app.use(middleware());
 
 const windowMs: any = process.env.EXPRESS_RATE_LIMIT_WINDOW_MILLISECONDS || 1000;
 const limit: any = process.env.EXPRESS_RATE_LIMIT || 10;
@@ -83,6 +134,12 @@ app.get('/', (req, res) => {
 });
 
 app.use('/v1/secure/', limiter, sec);
+
+app.use(errorHandler())
+
+app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+    // TODO: Error handling
+});
 
 app.listen(PORT, () => {
     console.log(`Now serving API on http://localhost:${PORT}`);
