@@ -31,9 +31,7 @@ const Main: React.FC = () => {
 
     if (!done) {
         return (
-            <ThirdPartyEmailPasswordAuthNoSSR>
-                <LogoBlank fillText={true} fillBall={true} setDone={setDone} />
-            </ThirdPartyEmailPasswordAuthNoSSR>
+            <LogoBlank fillText={true} fillBall={true} setDone={setDone} />
         );
     }
 
