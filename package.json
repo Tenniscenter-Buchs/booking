@@ -3,6 +3,7 @@
     "version": "1.0.0",
     "description": "",
     "scripts": {
+        "test": "npm test --workspace ui && npm test --workspace api",
         "build": "./scripts/build.sh",
         "start": "concurrently -n ui,api \"npm start --workspace ui\" \"npm start --workspace api\"",
         "dev": "concurrently -n ui,api \"npm run dev --workspace ui\" \"npm run dev --workspace api\""
