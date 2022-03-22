@@ -3,10 +3,10 @@
     "version": "1.0.0",
     "description": "",
     "scripts": {
-        "test": "jest",
+        "test": "jest --passWithNoTests",
         "build": "tsc",
         "start": "node build/index.js",
-        "start:dev": "concurrently -n express,jest \"nodemon index.ts\" \"jest --watchAll --verbose\"",
+        "start:dev": "concurrently -n express,jest \"nodemon index.ts\" \"jest --watchAll --verbose --passWithNoTests\"",
         "dev": "export DATABASE_URL=$(heroku config -a booking-staging-api | grep DATABASE_URL | awk \"{ print $2 }\") && npm run start:dev"
     },
     "author": "",
