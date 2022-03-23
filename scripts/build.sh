@@ -1,4 +1,8 @@
 #!/bin/bash
+if [[ ! -z ${REVIEW_APP} ]]; then
+    cp ui/.env.review ui/.env
+    cp api/.env.review api/.env
+fi
 if [[ -z ${BOOKING_COMPONENT} ]]; then
     npm run build --workspaces
 else

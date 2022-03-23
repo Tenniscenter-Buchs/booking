@@ -7,11 +7,20 @@ import rateLimit from 'express-rate-limit';
 import pub from './routes/public';
 import sec from './routes/secure';
 
+import dotenv from "dotenv";
+
 import supertokens from "supertokens-node";
 import {middleware} from "supertokens-node/framework/express";
 import Session from "supertokens-node/recipe/session";
 import ThirdPartyEmailPassword from "supertokens-node/recipe/thirdpartyemailpassword";
 import { errorHandler } from "supertokens-node/framework/express";
+
+if (process.env.REVIEW_APP && process.env.NODE_ENV === 'production') {
+    dotenv.config({path: process.cwd() + "/.env"});
+} else if (process.env.NODE_ENV !== 'production') {
+    dotenv.config({path: process.cwd() + "/.env.development"});
+}
+
 let { Google, Github, Apple } = ThirdPartyEmailPassword;
 
 const app = express();
@@ -47,11 +56,11 @@ const options = {
         servers: [
             {
                 url: 'http://localhost:5000/v1',
-                description: 'Local Integration Testing for API Version 1',
+                description: 'Local Testing for API Version 1',
             },
             {
                 url: 'https://api.staging.booking.tennis-buchs.ch/v1',
-                description: 'Public Staging Testing for API Version 1',
+                description: 'Staging Testing for API Version 1',
             },
             {
                 url: 'https://api.booking.tennis-buchs.ch/v1',
@@ -63,7 +72,7 @@ const options = {
 };
 
 const specs = swaggerJsdoc(options);
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(specs, { explorer: true }));
+app.use('/v1/docs', swaggerUi.serve, swaggerUi.setup(specs, { explorer: true }));
 
 app.use(bodyParser.json());
 app.use(
@@ -72,15 +81,25 @@ app.use(
     })
 );
 
+const connectionUri: string = process.env.SUPERTOKENS_CONNECTION_URI || "";
+const apiKey: string  = process.env.SUPERTOKENS_API_KEY || "";
+
+const herokuPrNumber: string = process.env.HEROKU_PR_NUMBER || "";
+const primaryUiHost = process.env.REVIEW_APP && process.env.UI_HOST?.replace("{PR_NUMBER}", herokuPrNumber) || process.env.UI_HOST;
+
+let uiHosts: (string | any)[] = [primaryUiHost, process.env.UI_HOST_HEROKU];
+let apiHosts: (string | any)[] = [process.env.API_HOST, process.env.API_HOST_HEROKU];
+
 supertokens.init({
     framework: "express",
     supertokens: {
-        connectionURI: "https://try.supertokens.com",
+        connectionURI: connectionUri,
+        apiKey: apiKey
     },
     appInfo: {
         appName: "booking-api",
-        apiDomain: "http://localhost:5000",
-        websiteDomain: "http://localhost:3000",
+        apiDomain: apiHosts[0],
+        websiteDomain: uiHosts[0],
         apiBasePath: "/v1/auth",
         websiteBasePath: "/auth"
     },
@@ -111,7 +130,7 @@ supertokens.init({
 })
 
 app.use(cors({
-    origin: "http://localhost:3000",
+    origin: uiHosts,
     allowedHeaders: ["content-type", ...supertokens.getAllCORSHeaders()],
     credentials: true,
 }));
@@ -138,7 +157,7 @@ app.use('/v1/secure/', limiter, sec);
 app.use(errorHandler())
 
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-    // TODO: Error handling
+    return err;
 });
 
 app.listen(PORT, () => {

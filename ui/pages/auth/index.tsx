@@ -9,7 +9,6 @@ const SuperTokensComponentNoSSR = dynamic(
 )
 
 export default function Auth() {
-
     useEffect(() => {
         if (SuperTokens.canHandleRoute() === false) {
             redirectToAuth()
