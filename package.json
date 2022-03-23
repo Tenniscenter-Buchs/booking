@@ -3,6 +3,7 @@
     "version": "1.0.0",
     "description": "",
     "scripts": {
+        "test": "npm test --workspace ui && npm test --workspace api",
         "build": "./scripts/build.sh",
         "start": "concurrently -n ui,api \"npm start --workspace ui\" \"npm start --workspace api\"",
         "dev": "concurrently -n ui,api \"npm run dev --workspace ui\" \"npm run dev --workspace api\""
@@ -29,7 +30,8 @@
         "typescript": "4.2.4"
     },
     "dependencies": {
-        "remark": "^14.0.2",
-        "dotenv": "^16.0.0"
+        "concurrently": "^7.0.0",
+        "dotenv": "^16.0.0",
+        "remark": "^14.0.2"
     }
 }

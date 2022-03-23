@@ -31,7 +31,7 @@ jobs:
               run: npm ci --workspace ui
 
             - name: Run production build
-              run: npm run build --workspace ui
+              run: cp ui/.env.test ui/.env && npm run build --workspace ui
 
             - name: Run end-to-end tests
               run: npm run cypress:test --workspace ui
