@@ -3,10 +3,10 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "dev": "concurrently -n next,jest \"next dev\" \"jest -c test/jest.config.js --watchAll --verbose\"",
+        "dev": "concurrently -n next,jest \"next dev\" \"jest -c test/jest.config.js --watchAll --verbose --coverage\"",
         "build": "next build",
         "start": "next start",
-        "test": "jest -c test/jest.config.js",
+        "test": "jest -c test/jest.config.js --verbose --coverage",
         "cypress:open": "cypress open",
         "cypress:run": "cypress run",
         "cypress:test": "concurrently -k -s first 'npm start' 'npm run cypress:run'"

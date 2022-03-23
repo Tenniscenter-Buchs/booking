@@ -3,10 +3,10 @@
     "version": "1.0.0",
     "description": "",
     "scripts": {
-        "test": "jest --passWithNoTests",
+        "test": "jest --passWithNoTests --coverage",
         "build": "tsc",
         "start": "node build/index.js",
-        "start:dev": "concurrently -n express,jest \"nodemon index.ts\" \"jest --watchAll --verbose --passWithNoTests\"",
+        "start:dev": "concurrently -n express,jest \"nodemon index.ts\" \"jest --watchAll --verbose --passWithNoTests --coverage\"",
         "dev": "source ./scripts/localEnv.sh && npm run start:dev"
     },
     "author": "",
