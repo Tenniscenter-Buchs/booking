@@ -10,7 +10,22 @@ import { Authenticator } from "@security";
 const Main: React.FC = () => {
     const [done, setDone] = useState(false);
 
-    const api = useApi();
+    const [api] = useApi();
+
+    const [ping, setPing] = useState<any>(null);
+
+    useEffect(() => {
+        if (!ping) {
+            const getPing = async () => {
+                try {
+                    setPing(await api.get("secure/pong"));
+                } catch (e: any) {
+                    console.error(e);
+                }
+            };
+            getPing();
+        }
+    }, [api, ping, done]);
 
     if (!done) {
         return (
@@ -23,7 +38,7 @@ const Main: React.FC = () => {
             <ScaleFade initialScale={1.0} in={done} >
                 <Header />
                 <Hero />
-                <a href={"http://" + api}>{api}</a>
+                {ping && <p>{ping.data}</p>}
             </ScaleFade>
         </Authenticator>
     );

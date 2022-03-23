@@ -12,6 +12,8 @@ import dotenv from "dotenv";
 import supertokens from "supertokens-node";
 import {middleware} from "supertokens-node/framework/express";
 import Session from "supertokens-node/recipe/session";
+import { verifySession } from "supertokens-node/recipe/session/framework/express";
+
 import ThirdPartyEmailPassword from "supertokens-node/recipe/thirdpartyemailpassword";
 import { errorHandler } from "supertokens-node/framework/express";
 
@@ -89,7 +91,6 @@ const primaryUiHost = process.env.REVIEW_APP && process.env.UI_HOST?.replace("{P
 
 let uiHosts: (string | any)[] = [primaryUiHost, process.env.UI_HOST_HEROKU];
 let apiHosts: (string | any)[] = [process.env.API_HOST, process.env.API_HOST_HEROKU];
-
 supertokens.init({
     framework: "express",
     supertokens: {
@@ -129,14 +130,6 @@ supertokens.init({
     ]
 })
 
-app.use(cors({
-    origin: uiHosts,
-    allowedHeaders: ["content-type", ...supertokens.getAllCORSHeaders()],
-    credentials: true,
-}));
-
-app.use(middleware());
-
 const windowMs: any = process.env.EXPRESS_RATE_LIMIT_WINDOW_MILLISECONDS || 1000;
 const limit: any = process.env.EXPRESS_RATE_LIMIT || 10;
 
@@ -148,11 +141,15 @@ const limiter = rateLimit({
 
 app.use('/v1/', limiter, pub);
 
-app.get('/', (req, res) => {
-    res.send('Hello world');
-});
+app.use(cors({
+    origin: uiHosts,
+    allowedHeaders: ["content-type", ...supertokens.getAllCORSHeaders()],
+    credentials: true,
+}));
 
-app.use('/v1/secure/', limiter, sec);
+app.use(middleware());
+
+app.use('/v1/secure/', verifySession(), limiter, sec);
 
 app.use(errorHandler())
 
