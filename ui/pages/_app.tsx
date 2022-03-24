@@ -17,11 +17,13 @@ if (typeof window !== 'undefined') {
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
     return (
-        <ChakraProvider theme={theme}>
-            <Provider store={store}>
-                <Component {...pageProps} />
-            </Provider>
-        </ChakraProvider>
+        <React.StrictMode>
+            <ChakraProvider theme={theme}>
+                <Provider store={store}>
+                    <Component {...pageProps} />
+                </Provider>
+            </ChakraProvider>
+        </React.StrictMode>
     );
 }
 

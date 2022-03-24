@@ -9,22 +9,8 @@ export const frontendConfig = () => {
         appInfo,
         recipeList: [
             ThirdPartyEmailPasswordReact.init({
-                override: {
-                    components: {
-                        // @ts-ignore
-                        EmailPasswordSignInHeader_Override: ({ DefaultComponent, ...props }: { DefaultComponent: React.ComponentType }) => {
-                            return (
-                                <React.Fragment>
-                                    <h1>I&apos;m a header that you added above original component</h1>
-                                    <DefaultComponent {...props} />
-                                </React.Fragment>
-                            );
-                        }
-
-                    },
-                },
+                useShadowDom: false,
                 signInAndUpFeature: {
-                    //disableDefaultImplementation: true,
                     providers: [
                         ThirdPartyEmailPasswordReact.Google.init(),
                         ThirdPartyEmailPasswordReact.Github.init(),
