@@ -7,6 +7,7 @@ export const frontendConfig = () => {
         appInfo,
         recipeList: [
             ThirdPartyEmailPasswordReact.init({
+                useShadowDom: false,
                 signInAndUpFeature: {
                     providers: [
                         ThirdPartyEmailPasswordReact.Google.init(),
