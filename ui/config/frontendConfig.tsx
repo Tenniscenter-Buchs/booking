@@ -2,8 +2,6 @@ import ThirdPartyEmailPasswordReact from 'supertokens-auth-react/recipe/thirdpar
 import SessionReact from 'supertokens-auth-react/recipe/session'
 import { appInfo } from './appInfo'
 
-import React from 'react';
-
 export const frontendConfig = () => {
     return {
         appInfo,
