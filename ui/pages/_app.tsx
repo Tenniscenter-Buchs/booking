@@ -8,7 +8,6 @@ import store from "@redux/store";
 import { appWithTranslation } from "@i18n";
 
 import SuperTokensReact from 'supertokens-auth-react'
-import { ThirdPartyEmailPasswordAuth } from 'supertokens-auth-react/recipe/thirdpartyemailpassword';
 
 import { frontendConfig } from '../config/frontendConfig'
 

@@ -9,22 +9,15 @@ import {
     useColorMode,
     useColorModeValue,
     useDisclosure,
-    CloseButton,
     Box,
-    VStack,
-    Button,
 } from "@chakra-ui/react";
 import { useViewportScroll } from "framer-motion";
-import { FaMoon, FaSun, FaUser } from "react-icons/fa";
+import { FaMoon, FaSun } from "react-icons/fa";
 import {
     AiFillGithub,
     AiOutlineMenu,
-    AiFillHome,
-    AiOutlineInbox,
 } from "react-icons/ai";
-import { BsFillCameraVideoFill } from "react-icons/bs";
 import { Logo } from "@choc-ui/logo";
-import { redirectToAuth } from "supertokens-auth-react/recipe/thirdpartyemailpassword";
 
 export function Header(){
     const mobileNav = useDisclosure();

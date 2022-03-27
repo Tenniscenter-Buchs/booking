@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 
-import { Header, Hero, LogoBlank, LogoTransition } from "@components";
+import { Header, Hero, LogoBlank } from "@components";
 import { ScaleFade } from '@chakra-ui/react'
 
 import { useApi } from "@hooks";
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
-
-import { Authenticator } from "@security";
 
 const Main: React.FC = () => {
     const [done, setDone] = useState(false);
