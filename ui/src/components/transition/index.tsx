@@ -342,7 +342,7 @@ export const LogoTransition = ({scale, strokeWidth, animationTime, numRepeats, f
 
     return (
         <React.Fragment>
-            <Center height="100vh">
+            <Center width="100vw" height="100vh" position="absolute">
                 <Box width={300 * scale}>
                     {animation}
                 </Box>

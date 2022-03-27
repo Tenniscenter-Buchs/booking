@@ -30,20 +30,17 @@ const Main: React.FC = () => {
         }
     }, [api, ping, done, doesSessionExist]);
 
-    if (!done) {
-        return (
-            <LogoBlank fillText={true} fillBall={true} setDone={setDone} />
-        );
-    }
-
     return (
-        <ScaleFade initialScale={1.0} in={done} >
-            {doesSessionExist || <React.Fragment>
-                <Header />
-                <Hero />
-            </React.Fragment>}
-            {ping && <p>{ping.data}</p>}
-        </ScaleFade>
+        <React.Fragment>
+            {!done && <LogoBlank fillText={true} fillBall={true} setDone={setDone} />}
+            <ScaleFade initialScale={1.0} in={done} >
+                {doesSessionExist || <React.Fragment>
+                    <Header />
+                    <Hero />
+                </React.Fragment>}
+                {ping && <p>{ping.data}</p>}
+            </ScaleFade>
+        </React.Fragment>
     );
 };
 
