@@ -4,6 +4,7 @@ import { Header, Hero, LogoBlank, LogoTransition } from "@components";
 import { ScaleFade } from '@chakra-ui/react'
 
 import { useApi } from "@hooks";
+import { useSessionContext } from 'supertokens-auth-react/recipe/session';
 
 import { Authenticator } from "@security";
 
@@ -14,8 +15,10 @@ const Main: React.FC = () => {
 
     const [ping, setPing] = useState<any>(null);
 
+    const { doesSessionExist } = useSessionContext();
+
     useEffect(() => {
-        if (!ping) {
+        if (doesSessionExist && !ping) {
             const getPing = async () => {
                 try {
                     setPing(await api.get("secure/pong"));
@@ -25,22 +28,19 @@ const Main: React.FC = () => {
             };
             getPing();
         }
-    }, [api, ping, done]);
-
-    if (!done) {
-        return (
-            <LogoBlank fillText={true} fillBall={true} setDone={setDone} />
-        );
-    }
+    }, [api, ping, done, doesSessionExist]);
 
     return (
-        <Authenticator>
+        <React.Fragment>
+            {!done && <LogoBlank fillText={true} fillBall={true} setDone={setDone} />}
             <ScaleFade initialScale={1.0} in={done} >
-                <Header />
-                <Hero />
+                {doesSessionExist || <React.Fragment>
+                    <Header />
+                    <Hero />
+                </React.Fragment>}
                 {ping && <p>{ping.data}</p>}
             </ScaleFade>
-        </Authenticator>
+        </React.Fragment>
     );
 };
 

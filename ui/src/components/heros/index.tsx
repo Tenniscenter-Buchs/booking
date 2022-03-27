@@ -9,6 +9,7 @@ import {
     Text,
     Icon,
 } from "@chakra-ui/react";
+import { redirectToAuth } from "supertokens-auth-react/recipe/thirdpartyemailpassword";
 
 export function Hero(){
     return (
@@ -34,9 +35,8 @@ export function Hero(){
                         bgGradient="linear(to-r, green.400,purple.500)"
                         fontWeight="extrabold"
                     >
-                        premium tennis experience
-                    </Text>{" "}
-                    online. Right here, right now.
+                        premium</Text>{" "}
+                    tennis experience online. Right here, right now.
                 </chakra.h1>
                 <chakra.p
                     px={{ base: 0, lg: 24 }}
@@ -44,7 +44,7 @@ export function Hero(){
                     fontSize={{ base: "lg", md: "xl" }}
                     color={useColorModeValue("gray.600", "gray.300")}
                 >
-                    The new booking system of your favorite tennis center is now operational.
+                    The new reservation system of your favorite tennis center is now in open beta.
                 </chakra.p>
                 <Stack
                     direction={{ base: "column", sm: "row" }}
@@ -62,8 +62,9 @@ export function Hero(){
                         mb={{ base: 2, sm: 0 }}
                         size="lg"
                         cursor="pointer"
+                        onClick={() => redirectToAuth("signin")}
                     >
-                        Get Started
+                        Continue
                         <Icon boxSize={4} ml={1} viewBox="0 0 20 20" fill="currentColor">
                             <path
                                 fillRule="evenodd"
@@ -82,8 +83,9 @@ export function Hero(){
                         mb={{ base: 2, sm: 0 }}
                         size="lg"
                         cursor="pointer"
+                        onClick={() => redirectToAuth("signup")}
                     >
-                        Book a Demo
+                        Sign up
                         <Icon boxSize={4} ml={1} viewBox="0 0 20 20" fill="currentColor">
                             <path
                                 fillRule="evenodd"

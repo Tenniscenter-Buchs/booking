@@ -28,6 +28,20 @@ export const LogoTransition = ({scale, strokeWidth, animationTime, numRepeats, f
     const theme = useTheme();
     const letterBFillColor =  useColorModeValue("#ffffff", theme["background"]);
 
+    const [scrollPosition, setScrollPosition] = useState(0);
+
+    const handleScroll = () => {
+        const position = window.pageYOffset;
+        setScrollPosition(position);
+    };
+
+    useEffect(() => {
+        window.addEventListener("scroll", handleScroll);
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, []);
+
     let animation =
         <SvgLines animate={true} fade={true} timing={"ease-in-out"} stagger={15}
             playback={numRepeats ? numRepeats + " alternate both" : "infinite alternate both"}
@@ -342,7 +356,7 @@ export const LogoTransition = ({scale, strokeWidth, animationTime, numRepeats, f
 
     return (
         <React.Fragment>
-            <Center height="100vh">
+            <Center width="100vw" height="100vh" position="absolute" transform={"translateY(" + scrollPosition + "px)"}>
                 <Box width={300 * scale}>
                     {animation}
                 </Box>
