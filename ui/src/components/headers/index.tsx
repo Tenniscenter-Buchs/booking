@@ -41,7 +41,7 @@ export function Header(){
 
     const OpenSourceButton = (
         <Box
-            display={{ base: "none", md: "flex" }}
+            display="flex"
             alignItems="center"
             as="a"
             aria-label="Continue to GitHub repository"
@@ -70,7 +70,7 @@ export function Header(){
             }}
             ml={5}
         >
-            <HStack spacing="5" display={{ base: "none", md: "flex" }}>
+            <HStack spacing="5" display="flex">
                 <Box as="span" lineHeight="inherit" fontWeight="semibold">
                     We are open source:
                 </Box>
@@ -124,15 +124,6 @@ export function Header(){
                                 icon={<SwitchIcon />}
                             />
                             {OpenSourceButton}
-                            <IconButton
-                                display={{ base: "flex", md: "none" }}
-                                aria-label="Open menu"
-                                fontSize="20px"
-                                color={useColorModeValue("gray.800", "inherit")}
-                                variant="ghost"
-                                icon={<AiOutlineMenu />}
-                                onClick={mobileNav.onOpen}
-                            />
                         </Flex>
                     </Flex>
                 </chakra.div>
