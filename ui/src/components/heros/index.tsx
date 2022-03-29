@@ -29,7 +29,7 @@ export function Hero(){
                 >
                     Book your{" "}
                     <Text
-                        display={{ base: "block", lg: "inline" }}
+                        display="inline"
                         w="full"
                         bgClip="text"
                         bgGradient="linear(to-r, green.400,purple.500)"
