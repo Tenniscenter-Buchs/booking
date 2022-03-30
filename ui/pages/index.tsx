@@ -3,40 +3,29 @@ import React, { useState, useEffect } from "react";
 import { Header, Hero, LogoBlank } from "@components";
 import { ScaleFade } from '@chakra-ui/react'
 
-import { useApi } from "@hooks";
-import { useSessionContext } from 'supertokens-auth-react/recipe/session';
+import { useLoginStatus } from "@hooks";
+
+import Router from 'next/router'
 
 const Main: React.FC = () => {
     const [done, setDone] = useState(false);
 
-    const [api] = useApi();
-
-    const [ping, setPing] = useState<any>(null);
-
-    const { doesSessionExist } = useSessionContext();
+    const loggedIn = useLoginStatus();
 
     useEffect(() => {
-        if (doesSessionExist && !ping) {
-            const getPing = async () => {
-                try {
-                    setPing(await api.get("secure/pong"));
-                } catch (e: any) {
-                    console.error(e);
-                }
-            };
-            getPing();
+        if (loggedIn) {
+            Router.push("/dashboard");
         }
-    }, [api, ping, done, doesSessionExist]);
+    });
 
     return (
         <React.Fragment>
-            {!done && <LogoBlank fillText={true} fillBall={true} setDone={setDone} />}
+            {done || <LogoBlank fillText={true} fillBall={true} setDone={setDone} />}
             <ScaleFade initialScale={1.0} in={done} >
-                {doesSessionExist || <React.Fragment>
+                <React.Fragment>
                     <Header />
                     <Hero />
-                </React.Fragment>}
-                {ping && <p>{ping.data}</p>}
+                </React.Fragment>
             </ScaleFade>
         </React.Fragment>
     );
