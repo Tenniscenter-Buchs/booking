@@ -20,9 +20,6 @@ export const LogoTransition = ({scale, strokeWidth, animationTime, numRepeats, f
     }
     if (numRepeats) {
         numRepeats *= 2;
-        if (setDone) {
-            setTimeout(() => setDone(true), numRepeats * 0.8 * animationTime);
-        }
     }
 
     const theme = useTheme();
@@ -345,9 +342,18 @@ export const LogoTransition = ({scale, strokeWidth, animationTime, numRepeats, f
         </SvgLines>;
 
     const [mounted, setMounted] = useState(true);
-    useUnmountEffect(() => { setMounted(!mounted); }, [mounted]);
-    useEffect(() => { if (mounted) document.body.style.overflow = "hidden"; }, [mounted]);
-    useUnmountEffect(() => { document.body.style.overflow = "auto"; })
+    useEffect(() => {
+        if (mounted) document.body.style.overflow = "hidden";
+        let timeout: ReturnType<typeof setTimeout>;
+        if (setDone && numRepeats && animationTime) {
+            timeout = setTimeout(() => setDone(true), numRepeats * 0.8 * animationTime);
+        }
+        return () => {
+            setMounted(!mounted);
+            document.body.style.overflow = "auto";
+            clearTimeout(timeout);
+        };
+    }, [mounted, numRepeats, animationTime, setDone]);
 
     animation =
         <ScaleFade initialScale={0.9} in={mounted} >

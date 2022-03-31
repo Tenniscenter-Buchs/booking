@@ -23,7 +23,7 @@ const Main: React.FC = () => {
             {done || <LogoBlank fillText={true} fillBall={true} setDone={setDone} />}
             <ScaleFade initialScale={1.0} in={done} >
                 <React.Fragment>
-                    <Header />
+                    <Header showGithubButton={true} />
                     <Hero />
                 </React.Fragment>
             </ScaleFade>

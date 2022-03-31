@@ -14,21 +14,31 @@ import {
 import { AiFillEdit } from "react-icons/ai";
 import { BsBoxArrowUpRight, BsFillTrashFill } from "react-icons/bs";
 
+import { useApi } from "@hooks";
+
 import { Authenticator } from "@security";
+import { Header } from "@components/headers";
 
 export default function ListView() {
     const header = ["name", "created", "actions"];
-    const data = [
-        { name: "Daggy", created: "7 days ago" },
-        { name: "Anubra", created: "23 hours ago" },
-        { name: "Josef", created: "A few seconds ago" },
-        { name: "Sage", created: "A few hours ago" },
-    ];
+    const [data, setData] = React.useState<any[] | null>(null);
     const color1 = useColorModeValue("gray.400", "gray.400");
     const color2 = useColorModeValue("gray.400", "gray.400");
 
+    const [api] = useApi();
+
+    React.useEffect(() => {
+        if (data) return;
+        api.get('secure/courts').then((res) => {
+            setData(res.data);
+        }).catch((error) => {
+            console.error(error);
+        });
+    }, [data, api]);
+
     return (
         <Authenticator>
+            <Header />
             <Flex
                 w="full"
                 bg="gray.600"
@@ -77,7 +87,7 @@ export default function ListView() {
                         },
                         }}
                     >
-                        {data.map((token: any, tid) => {
+                        {data?.map((token: any, tid) => {
                             return (
                                 <Tr
                                     key={tid}

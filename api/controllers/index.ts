@@ -9,4 +9,15 @@ const pong = (req: SessionRequest, res: Express.Response) => {
     res.status(200).send('ping');
 };
 
-export {ping, pong};
+const courts = (req: SessionRequest, res: Express.Response) => {
+    res.status(200).send(
+        [
+            { name: "Daggy", created: "7 days ago" },
+            { name: "Anubra", created: "23 hours ago" },
+            { name: "Josef", created: "A few seconds ago" },
+            { name: "Sage", created: "A few hours ago" },
+        ]
+    );
+}
+
+export {ping, pong, courts};
