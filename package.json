@@ -6,7 +6,8 @@
         "test": "npm test --workspace ui && npm test --workspace api",
         "build": "./scripts/build.sh",
         "start": "concurrently -n ui,api \"npm start --workspace ui\" \"npm start --workspace api\"",
-        "dev": "concurrently -n ui,api \"npm run dev --workspace ui\" \"npm run dev --workspace api\""
+        "dev": "concurrently -n ui,api \"npm run dev --workspace ui\" \"npm run dev --workspace api\"",
+        "db:migrate": "npm run db:migrate --workspace api"
     },
     "repository": {
         "type": "git",
@@ -34,6 +35,8 @@
     "dependencies": {
         "concurrently": "^7.0.0",
         "dotenv": "^16.0.0",
+        "node-pg-migrate": "^6.2.1",
+        "pg": "^8.7.3",
         "remark": "^14.0.2"
     }
 }
