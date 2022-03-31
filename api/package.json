@@ -5,7 +5,7 @@
     "scripts": {
         "test": "jest --passWithNoTests --coverage",
         "build": "tsc",
-        "start": "npm run db:migrate up && node build/index.js",
+        "start": "npm run db:migrate up  && node build/index.js",
         "start:dev": "concurrently -n express,jest \"nodemon index.ts\" \"jest --watchAll --verbose --passWithNoTests --coverage\"",
         "dev": "source ./scripts/localEnv.sh && npm run db:migrate up && npm run start:dev",
         "db:migrate": "node-pg-migrate"
