@@ -19,7 +19,7 @@ import {
 } from "react-icons/ai";
 import { Logo } from "@choc-ui/logo";
 
-export function Header(){
+export function Header({showGithubButton}: {showGithubButton?: boolean}) {
     const mobileNav = useDisclosure();
 
     const { toggleColorMode: toggleMode } = useColorMode();
@@ -123,7 +123,7 @@ export function Header(){
                                 onClick={toggleMode}
                                 icon={<SwitchIcon />}
                             />
-                            {OpenSourceButton}
+                            {showGithubButton && OpenSourceButton}
                         </Flex>
                     </Flex>
                 </chakra.div>

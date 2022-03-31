@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-import {pong} from "../../controllers"
+import {pong, courts} from "../../controllers"
 
 /**
  *  @openapi
@@ -13,5 +13,17 @@ import {pong} from "../../controllers"
  *          description: Returns "ping" just for the fun of it
  **/
 router.get('/pong', pong);
+
+/**
+ *  @openapi
+ *  /courts:
+ *    get:
+ *      summary: Returns a historical list of courts booked by the currently authenticated user
+ *      description: Returns a historical list of courts booked by the currently authenticated user
+ *      responses:
+ *        200:
+ *          description: Returns a list of courts
+ **/
+router.get('/courts', courts);
 
 export default router;
