@@ -1,4 +1,4 @@
 #!/bin/bash
 export SUPERTOKENS_API_KEY=$(heroku config -a booking-staging-api | grep SUPERTOKENS_API_KEY | awk '{ print $2 }')
 export SUPERTOKENS_CONNECTION_URI=$(heroku config -a booking-staging-api | grep SUPERTOKENS_CONNECTION_URI | awk '{ print $2 }')
-export DATABASE_URL=$(heroku config -a booking-staging-api | grep DATABASE_URL | awk '{ print $2 }')
+export DATABASE_URL="postgres://development:development@localhost:5432/booking"
