@@ -139,8 +139,8 @@ supertokens.init({
     ]
 });
 
-const windowMs: any = process.env.EXPRESS_RATE_LIMIT_WINDOW_MILLISECONDS || 1000;
-const limit: any = process.env.EXPRESS_RATE_LIMIT || 10;
+const windowMs: number = Number(process.env.EXPRESS_RATE_LIMIT_WINDOW_MILLISECONDS) || 1000;
+const limit: number = Number(process.env.EXPRESS_RATE_LIMIT) || 10;
 
 const limiter = rateLimit({
     windowMs: windowMs,
@@ -148,7 +148,9 @@ const limiter = rateLimit({
     message: 'API rate limit hit, please try again in a short moment',
 });
 
-app.use('/v1/', limiter, pub);
+app.use(limiter);
+
+app.use('/v1/', pub);
 
 app.use(cors({
     origin: uiHosts,
@@ -158,7 +160,7 @@ app.use(cors({
 
 app.use(middleware());
 
-app.use('/v1/secure/', verifySession(), limiter, sec);
+app.use('/v1/secure/', verifySession(), sec);
 
 app.use(errorHandler());
 
