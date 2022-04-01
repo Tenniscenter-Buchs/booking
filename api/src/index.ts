@@ -1,4 +1,4 @@
-import "reflect-metadata";
+import 'reflect-metadata';
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
@@ -9,23 +9,21 @@ import { AppDataSource } from './data-source';
 import pub from './routes/public';
 import sec from './routes/secure';
 
-import dotenv from "dotenv";
+import dotenv from 'dotenv';
 
-import supertokens from "supertokens-node";
-import {middleware} from "supertokens-node/framework/express";
-import Session from "supertokens-node/recipe/session";
-import { verifySession } from "supertokens-node/recipe/session/framework/express";
+import supertokens from 'supertokens-node';
+import {middleware} from 'supertokens-node/framework/express';
+import Session from 'supertokens-node/recipe/session';
+import { verifySession } from 'supertokens-node/recipe/session/framework/express';
 
-import ThirdPartyEmailPassword from "supertokens-node/recipe/thirdpartyemailpassword";
-import { errorHandler } from "supertokens-node/framework/express";
+import ThirdPartyEmailPassword from 'supertokens-node/recipe/thirdpartyemailpassword';
+import { errorHandler } from 'supertokens-node/framework/express';
 
 if (process.env.REVIEW_APP && process.env.NODE_ENV === 'production') {
-    dotenv.config({path: process.cwd() + "/.env"});
+    dotenv.config({path: process.cwd() + '/.env'});
 } else if (process.env.NODE_ENV !== 'production') {
-    dotenv.config({path: process.cwd() + "/.env.development"});
+    dotenv.config({path: process.cwd() + '/.env.development'});
 }
-
-let { Google, Github, Apple } = ThirdPartyEmailPassword;
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -85,52 +83,61 @@ app.use(
     })
 );
 
-const connectionUri: string = process.env.SUPERTOKENS_CONNECTION_URI || "";
-const apiKey: string  = process.env.SUPERTOKENS_API_KEY || "";
+const connectionUri: string = process.env.SUPERTOKENS_CONNECTION_URI || '';
+const apiKey: string  = process.env.SUPERTOKENS_API_KEY || '';
 
-const herokuPrNumber: string = process.env.HEROKU_PR_NUMBER || "";
-const primaryUiHost = process.env.REVIEW_APP && process.env.UI_HOST?.replace("{PR_NUMBER}", herokuPrNumber) || process.env.UI_HOST;
+const herokuPrNumber: string = process.env.HEROKU_PR_NUMBER || '';
+const primaryUiHost = process.env.REVIEW_APP && process.env.UI_HOST?.replace('{PR_NUMBER}', herokuPrNumber) || process.env.UI_HOST;
 
-let uiHosts: (string | any)[] = [primaryUiHost, process.env.UI_HOST_HEROKU];
-let apiHosts: (string | any)[] = [process.env.API_HOST, process.env.API_HOST_HEROKU];
+const uiHosts: (string | any)[] = [primaryUiHost, process.env.UI_HOST_HEROKU];
+const apiHosts: (string | any)[] = [process.env.API_HOST, process.env.API_HOST_HEROKU];
 supertokens.init({
-    framework: "express",
+    framework: 'express',
     supertokens: {
         connectionURI: connectionUri,
         apiKey: apiKey
     },
     appInfo: {
-        appName: "booking-api",
+        appName: 'booking-api',
         apiDomain: apiHosts[0],
         websiteDomain: uiHosts[0],
-        apiBasePath: "/v1/auth",
-        websiteBasePath: "/auth"
+        apiBasePath: '/v1/auth',
+        websiteBasePath: '/auth'
     },
     recipeList: [
         ThirdPartyEmailPassword.init({
-            providers: [
-                Google({
-                    clientId: "1060725074195-kmeum4crr01uirfl2op9kd5acmi9jutn.apps.googleusercontent.com",
-                    clientSecret: "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"
-                }),
-                Github({
-                    clientId: "467101b197249757c71f",
-                    clientSecret: "e97051221f4b6426e8fe8d51486396703012f5bd"
-                }),
-                Apple({
-                    clientId: "4398792-io.supertokens.example.service",
-                    clientSecret: {
-                        keyId: "7M48Y4RYDL",
-                        privateKey:
-                        "-----BEGIN PRIVATE KEY-----\nMIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgu8gXs+XYkqXD6Ala9Sf/iJXzhbwcoG5dMh1OonpdJUmgCgYIKoZIzj0DAQehRANCAASfrvlFbFCYqn3I2zeknYXLwtH30JuOKestDbSfZYxZNMqhF/OzdZFTV0zc5u5s3eN+oCWbnvl0hM+9IW0UlkdA\n-----END PRIVATE KEY-----",
-                        teamId: "YWQCXGJRJL",
-                    },
-                }),
-            ]
+            override: {
+                apis: (originalImplementation) => {
+                    return {
+                        ...originalImplementation,
+                        emailPasswordSignUpPOST: async function(input) {
+                            if (originalImplementation.emailPasswordSignUpPOST === undefined) {
+                                throw Error('Should never come here');
+                            }
+                            const response = await originalImplementation.emailPasswordSignUpPOST(input);
+                            if (response.status === 'OK') {
+                                // TODO: some post sign up logic
+                            }
+                            return response;
+                        },
+                        emailPasswordSignInPOST: async function(input) {
+                            if (originalImplementation.emailPasswordSignInPOST === undefined) {
+                                throw Error('Should never come here');
+                            }
+                            // TODO: some pre sign in logic
+                            const response = await originalImplementation.emailPasswordSignInPOST(input);
+                            if (response.status === 'OK') {
+                                // TODO: some post sign in logic
+                            }
+                            return response;
+                        }
+                    };
+                }
+            }
         }),
         Session.init()
     ]
-})
+});
 
 const windowMs: any = process.env.EXPRESS_RATE_LIMIT_WINDOW_MILLISECONDS || 1000;
 const limit: any = process.env.EXPRESS_RATE_LIMIT || 10;
@@ -145,7 +152,7 @@ app.use('/v1/', limiter, pub);
 
 app.use(cors({
     origin: uiHosts,
-    allowedHeaders: ["content-type", ...supertokens.getAllCORSHeaders()],
+    allowedHeaders: ['content-type', ...supertokens.getAllCORSHeaders()],
     credentials: true,
 }));
 
@@ -153,11 +160,7 @@ app.use(middleware());
 
 app.use('/v1/secure/', verifySession(), limiter, sec);
 
-app.use(errorHandler())
-
-app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-    return err;
-});
+app.use(errorHandler());
 
 const initDataSource = async () => {
     try {
@@ -165,7 +168,7 @@ const initDataSource = async () => {
     } catch(e) {
         console.error(e);
     }
-}
+};
 initDataSource();
 
 app.listen(PORT, () => {
