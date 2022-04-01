@@ -1,9 +1,11 @@
+import "reflect-metadata";
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import rateLimit from 'express-rate-limit';
+import { AppDataSource } from './data-source';
 import pub from './routes/public';
 import sec from './routes/secure';
 
@@ -156,6 +158,15 @@ app.use(errorHandler())
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
     return err;
 });
+
+const initDataSource = async () => {
+    try {
+        await AppDataSource.initialize();
+    } catch(e) {
+        console.error(e);
+    }
+}
+initDataSource();
 
 app.listen(PORT, () => {
     console.log(`Now serving API on http://localhost:${PORT}`);
