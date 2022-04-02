@@ -18,6 +18,9 @@ import {
     AiOutlineMenu,
 } from "react-icons/ai";
 import { Logo } from "@choc-ui/logo";
+import { useLoginStatus } from "@hooks/security";
+
+import { ProfileMenu } from "./profile";
 
 export function Header({showGithubButton}: {showGithubButton?: boolean}) {
     const mobileNav = useDisclosure();
@@ -35,6 +38,8 @@ export function Header({showGithubButton}: {showGithubButton?: boolean}) {
     React.useEffect(() => {
         return scrollY.onChange(() => setY(scrollY.get()));
     }, [scrollY]);
+
+    const loggedIn = useLoginStatus();
 
     const openSourceTextColor = useColorModeValue("gray.800", "gray.10");
     const openSourceBgColor = useColorModeValue("gray.50", "gray.800");
@@ -124,6 +129,7 @@ export function Header({showGithubButton}: {showGithubButton?: boolean}) {
                                 icon={<SwitchIcon />}
                             />
                             {showGithubButton && OpenSourceButton}
+                            {loggedIn && <ProfileMenu />}
                         </Flex>
                     </Flex>
                 </chakra.div>

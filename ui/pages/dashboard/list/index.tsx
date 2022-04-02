@@ -20,7 +20,6 @@ import { Authenticator } from "@security";
 import { Header } from "@components/headers";
 
 export default function ListView() {
-    const header = ["name", "created", "actions"];
     const [data, setData] = React.useState<any[] | null>(null);
     const color1 = useColorModeValue("gray.400", "gray.400");
     const color2 = useColorModeValue("gray.400", "gray.400");
@@ -71,7 +70,7 @@ export default function ListView() {
                         }}
                     >
                         <Tr>
-                            {header.map((x) => (
+                            {data && Object.keys(data[0]).map((x) => (
                                 <Th key={x}>{x}</Th>
                             ))}
                         </Tr>
