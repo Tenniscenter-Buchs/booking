@@ -18,12 +18,23 @@ import { verifySession } from 'supertokens-node/recipe/session/framework/express
 
 import ThirdPartyEmailPassword from 'supertokens-node/recipe/thirdpartyemailpassword';
 import { errorHandler } from 'supertokens-node/framework/express';
+import { User } from './entity/User';
 
 if (process.env.REVIEW_APP && process.env.NODE_ENV === 'production') {
     dotenv.config({path: process.cwd() + '/.env'});
 } else if (process.env.NODE_ENV !== 'production') {
     dotenv.config({path: process.cwd() + '/.env.development'});
 }
+
+const initDataSource = async () => {
+    try {
+        await AppDataSource.initialize();
+    } catch(e) {
+        console.error(e);
+    }
+};
+initDataSource();
+
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -135,7 +146,24 @@ supertokens.init({
                 }
             }
         }),
-        Session.init()
+        Session.init({
+            override: {
+                functions: (originalImplementation) => {
+                    return {
+                        ...originalImplementation,
+                        createNewSession: async function (input) {
+                            const userId = input.userId;
+                            const user = await AppDataSource.getRepository(User).findOneByOrFail({ supertokensId: userId });
+                            input.accessTokenPayload = {
+                                ...input.accessTokenPayload,
+                                role: user.role,
+                            };
+                            return originalImplementation.createNewSession(input);
+                        },
+                    };
+                },
+            },
+        })
     ]
 });
 
@@ -163,15 +191,6 @@ app.use(middleware());
 app.use('/v1/secure/', verifySession(), sec);
 
 app.use(errorHandler());
-
-const initDataSource = async () => {
-    try {
-        await AppDataSource.initialize();
-    } catch(e) {
-        console.error(e);
-    }
-};
-initDataSource();
 
 app.listen(PORT, () => {
     console.log(`Now serving API on http://localhost:${PORT}`);
