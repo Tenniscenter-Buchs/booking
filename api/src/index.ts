@@ -118,30 +118,23 @@ supertokens.init({
     recipeList: [
         ThirdPartyEmailPassword.init({
             override: {
-                apis: (originalImplementation) => {
+                functions: (originalImplementation) => {
                     return {
                         ...originalImplementation,
-                        emailPasswordSignUpPOST: async function(input) {
-                            if (originalImplementation.emailPasswordSignUpPOST === undefined) {
-                                throw Error('Should never come here');
-                            }
-                            const response = await originalImplementation.emailPasswordSignUpPOST(input);
+                        emailPasswordSignUp: async function (input) {
+                            const response = await originalImplementation.emailPasswordSignUp(input);
                             if (response.status === 'OK') {
-                                // TODO: some post sign up logic
+                                await AppDataSource
+                                    .createQueryBuilder()
+                                    .insert()
+                                    .into(User)
+                                    .values([
+                                        { supertokensId: response.user.id, email: response.user.email, firstName:"", lastName: "" },
+                                    ])
+                                    .execute()
                             }
                             return response;
                         },
-                        emailPasswordSignInPOST: async function(input) {
-                            if (originalImplementation.emailPasswordSignInPOST === undefined) {
-                                throw Error('Should never come here');
-                            }
-                            // TODO: some pre sign in logic
-                            const response = await originalImplementation.emailPasswordSignInPOST(input);
-                            if (response.status === 'OK') {
-                                // TODO: some post sign in logic
-                            }
-                            return response;
-                        }
                     };
                 }
             }
@@ -153,7 +146,7 @@ supertokens.init({
                         ...originalImplementation,
                         createNewSession: async function (input) {
                             const userId = input.userId;
-                            const user = await AppDataSource.getRepository(User).findOneByOrFail({ supertokensId: userId });
+                            const user = await AppDataSource.getRepository(User).findOneBy({ supertokensId: userId });
                             input.accessTokenPayload = {
                                 ...input.accessTokenPayload,
                                 role: user.role,

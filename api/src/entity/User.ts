@@ -20,10 +20,10 @@ export class User {
     @Column()
     email: string;
 
-    @Column()
+    @Column({default: false})
     signupComplete: boolean;
 
-    @Column()
+    @Column({default: false})
     emailVerified: boolean;
 
     @Column({
@@ -31,11 +31,11 @@ export class User {
     })
     supertokensId: string;
 
-    @ManyToOne(() => Address, {nullable: false})
+    @ManyToOne(() => Address)
     @JoinColumn()
     residenceAddress: Address;
 
-    @ManyToOne(() => Address, {nullable: false})
+    @ManyToOne(() => Address)
     @JoinColumn()
     billingAddress: Address;
 
