@@ -18,12 +18,23 @@ import { verifySession } from 'supertokens-node/recipe/session/framework/express
 
 import ThirdPartyEmailPassword from 'supertokens-node/recipe/thirdpartyemailpassword';
 import { errorHandler } from 'supertokens-node/framework/express';
+import { User } from './entity/User';
 
 if (process.env.REVIEW_APP && process.env.NODE_ENV === 'production') {
     dotenv.config({path: process.cwd() + '/.env'});
 } else if (process.env.NODE_ENV !== 'production') {
     dotenv.config({path: process.cwd() + '/.env.development'});
 }
+
+const initDataSource = async () => {
+    try {
+        await AppDataSource.initialize();
+    } catch(e) {
+        console.error(e);
+    }
+};
+initDataSource();
+
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -107,40 +118,69 @@ supertokens.init({
     recipeList: [
         ThirdPartyEmailPassword.init({
             override: {
-                apis: (originalImplementation) => {
+                emailVerificationFeature: {
+                    apis: (originalImplementation) => {
+                        return {
+                            ...originalImplementation,
+                            verifyEmailPOST: async function(input) {
+                                const response = await originalImplementation.verifyEmailPOST(input);
+                                if (response.status === 'OK') {
+                                    const { id, email } = response.user;
+                                    const user = await AppDataSource.getRepository(User).findOneBy({ supertokensId: id });
+                                    if (user.email == email) {
+                                        user.emailVerified = true;
+                                    }
+                                    await AppDataSource.getRepository(User).save(user);
+                                }
+                                return response;
+                            }
+                        };
+                    }
+                },
+                functions: (originalImplementation) => {
                     return {
                         ...originalImplementation,
-                        emailPasswordSignUpPOST: async function(input) {
-                            if (originalImplementation.emailPasswordSignUpPOST === undefined) {
-                                throw Error('Should never come here');
-                            }
-                            const response = await originalImplementation.emailPasswordSignUpPOST(input);
+                        emailPasswordSignUp: async function(input) {
+                            const response = await originalImplementation.emailPasswordSignUp(input);
                             if (response.status === 'OK') {
-                                // TODO: some post sign up logic
+                                await AppDataSource
+                                    .createQueryBuilder()
+                                    .insert()
+                                    .into(User)
+                                    .values([
+                                        { supertokensId: response.user.id, email: response.user.email, firstName: '', lastName: '' },
+                                    ])
+                                    .execute();
                             }
                             return response;
                         },
-                        emailPasswordSignInPOST: async function(input) {
-                            if (originalImplementation.emailPasswordSignInPOST === undefined) {
-                                throw Error('Should never come here');
-                            }
-                            // TODO: some pre sign in logic
-                            const response = await originalImplementation.emailPasswordSignInPOST(input);
-                            if (response.status === 'OK') {
-                                // TODO: some post sign in logic
-                            }
-                            return response;
-                        }
                     };
                 }
             }
         }),
-        Session.init()
+        Session.init({
+            override: {
+                functions: (originalImplementation) => {
+                    return {
+                        ...originalImplementation,
+                        createNewSession: async function(input) {
+                            const userId = input.userId;
+                            const user = await AppDataSource.getRepository(User).findOneBy({ supertokensId: userId });
+                            input.accessTokenPayload = {
+                                ...input.accessTokenPayload,
+                                role: user.role,
+                            };
+                            return originalImplementation.createNewSession(input);
+                        },
+                    };
+                },
+            },
+        })
     ]
 });
 
 const windowMs: number = Number(process.env.EXPRESS_RATE_LIMIT_WINDOW_MILLISECONDS) || 1000;
-const limit: number = Number(process.env.EXPRESS_RATE_LIMIT) || 10;
+const limit: number = Number(process.env.EXPRESS_RATE_LIMIT) || 5;
 
 const limiter = rateLimit({
     windowMs: windowMs,
@@ -163,15 +203,6 @@ app.use(middleware());
 app.use('/v1/secure/', verifySession(), sec);
 
 app.use(errorHandler());
-
-const initDataSource = async () => {
-    try {
-        await AppDataSource.initialize();
-    } catch(e) {
-        console.error(e);
-    }
-};
-initDataSource();
 
 app.listen(PORT, () => {
     console.log(`Now serving API on http://localhost:${PORT}`);

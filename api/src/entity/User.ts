@@ -1,18 +1,48 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, JoinColumn , ManyToOne } from 'typeorm';
+import { Address } from './Address';
 
-@Entity("users")
+export enum UserRole {
+    ADMIN = 'admin',
+        END_USER = 'end_user'
+}
+
+@Entity('users')
 export class User {
-
     @PrimaryGeneratedColumn()
-    id: number
+    id: number;
 
     @Column()
-    firstName: string
+    firstName: string;
 
     @Column()
-    lastName: string
+    lastName: string;
 
     @Column()
-    supertokensId: string
+    email: string;
 
+    @Column({default: false})
+    signupComplete: boolean;
+
+    @Column({default: false})
+    emailVerified: boolean;
+
+    @Column({
+        unique: true
+    })
+    supertokensId: string;
+
+    @ManyToOne(() => Address)
+    @JoinColumn()
+    residenceAddress: Address;
+
+    @ManyToOne(() => Address)
+    @JoinColumn()
+    billingAddress: Address;
+
+    @Column({
+        type: 'enum',
+        enum: UserRole,
+        default: UserRole.END_USER
+    })
+    role: UserRole;
 }
