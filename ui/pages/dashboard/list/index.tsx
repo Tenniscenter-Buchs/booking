@@ -18,9 +18,10 @@ import { useApi } from "@hooks";
 
 import { Authenticator } from "@security";
 import { Header } from "@components/headers";
+import { CourtReservation } from "@transfer/CourtReservation";
 
 export default function ListView() {
-    const [data, setData] = React.useState<any[] | null>(null);
+    const [data, setData] = React.useState<CourtReservation[] | null>(null);
     const color1 = useColorModeValue("gray.400", "gray.400");
     const color2 = useColorModeValue("gray.400", "gray.400");
 
@@ -29,6 +30,7 @@ export default function ListView() {
     React.useEffect(() => {
         if (data) return;
         api.get('secure/courts').then((res) => {
+            console.log(res.data);
             setData(res.data);
         }).catch((error) => {
             console.error(error);
@@ -70,16 +72,13 @@ export default function ListView() {
                         }}
                     >
                         <Tr>
-                            {data && Object.keys(data[0]).map((x) => (
+                            {data?.[0] && Object.keys(data[0]).map((x) => (
                                 <Th key={x}>{x}</Th>
                             ))}
                         </Tr>
                     </Thead>
                     <Tbody
-                        display={{
-                            base: "block",
-                                lg: "table-row-group",
-                        }}
+                        display="table-row-group"
                         sx={{
                             "@media print": {
                                 display: "table-row-group",

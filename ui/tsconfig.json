@@ -43,6 +43,12 @@
             "@security": [
                 "src/security"
             ],
+            "@transfer/*": [
+                "src/transfer/*"
+            ],
+            "@transfer": [
+                "src/transfer"
+            ],
             "@public/*": [
                 "public/*"
             ],

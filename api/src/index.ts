@@ -118,10 +118,29 @@ supertokens.init({
     recipeList: [
         ThirdPartyEmailPassword.init({
             override: {
+                emailVerificationFeature: {
+                    apis: (originalImplementation) => {
+                        return {
+                            ...originalImplementation,
+                            verifyEmailPOST: async function(input) {
+                                const response = await originalImplementation.verifyEmailPOST(input);
+                                if (response.status === 'OK') {
+                                    const { id, email } = response.user;
+                                    const user = await AppDataSource.getRepository(User).findOneBy({ supertokensId: id });
+                                    if (user.email == email) {
+                                        user.emailVerified = true;
+                                    }
+                                    await AppDataSource.getRepository(User).save(user);
+                                }
+                                return response;
+                            }
+                        };
+                    }
+                },
                 functions: (originalImplementation) => {
                     return {
                         ...originalImplementation,
-                        emailPasswordSignUp: async function (input) {
+                        emailPasswordSignUp: async function(input) {
                             const response = await originalImplementation.emailPasswordSignUp(input);
                             if (response.status === 'OK') {
                                 await AppDataSource
@@ -129,9 +148,9 @@ supertokens.init({
                                     .insert()
                                     .into(User)
                                     .values([
-                                        { supertokensId: response.user.id, email: response.user.email, firstName:"", lastName: "" },
+                                        { supertokensId: response.user.id, email: response.user.email, firstName: '', lastName: '' },
                                     ])
-                                    .execute()
+                                    .execute();
                             }
                             return response;
                         },
@@ -144,7 +163,7 @@ supertokens.init({
                 functions: (originalImplementation) => {
                     return {
                         ...originalImplementation,
-                        createNewSession: async function (input) {
+                        createNewSession: async function(input) {
                             const userId = input.userId;
                             const user = await AppDataSource.getRepository(User).findOneBy({ supertokensId: userId });
                             input.accessTokenPayload = {
@@ -161,7 +180,7 @@ supertokens.init({
 });
 
 const windowMs: number = Number(process.env.EXPRESS_RATE_LIMIT_WINDOW_MILLISECONDS) || 1000;
-const limit: number = Number(process.env.EXPRESS_RATE_LIMIT) || 10;
+const limit: number = Number(process.env.EXPRESS_RATE_LIMIT) || 5;
 
 const limiter = rateLimit({
     windowMs: windowMs,
