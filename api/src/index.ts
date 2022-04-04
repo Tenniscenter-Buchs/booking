@@ -6,8 +6,8 @@ import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import rateLimit from 'express-rate-limit';
 import { AppDataSource } from './data-source';
-import pub from './routes/public';
-import sec from './routes/secure';
+import { v1pub } from './routes';
+import { v1sec } from './routes';
 
 import dotenv from 'dotenv';
 
@@ -19,6 +19,8 @@ import { verifySession } from 'supertokens-node/recipe/session/framework/express
 import ThirdPartyEmailPassword from 'supertokens-node/recipe/thirdpartyemailpassword';
 import { errorHandler } from 'supertokens-node/framework/express';
 import { User } from './entity/User';
+
+import expressJSDocSwagger from 'express-jsdoc-swagger';
 
 if (process.env.REVIEW_APP && process.env.NODE_ENV === 'production') {
     dotenv.config({path: process.cwd() + '/.env'});
@@ -35,7 +37,6 @@ const initDataSource = async () => {
 };
 initDataSource();
 
-
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -50,42 +51,78 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 const options = {
-    definition: {
-        openapi: '3.0.0',
-        info: {
-            title: 'booking.tennis-buchs.ch API Documentation | Swagger',
-            version: '0.0.1',
-            description:
-            'This is a CRUD (CREATE, READ, UPDATE, DELETE) API application made with Express and documented with Swagger',
-            license: {
-                name: 'GNU General Public License v3.0',
-                url: 'https://www.gnu.org/licenses/gpl-3.0.html',
-            },
-            contact: {
-                name: 'Cedric Schwyter',
-                email: 'cedricschwyter@bluewin.ch',
+    info: {
+        version: '1.0.0',
+        title: 'Booking API',
+        license: {
+            name: 'GPLV3',
+            url: 'https://github.com/Tenniscenter-Buchs/booking',
+        },
+        description: 'API description',
+        contact: {
+            name: 'Cedric Schwyter',
+            email: 'cedricschwyter@bluewin.ch',
+        },
+    },
+    servers: [
+        {
+            url: 'https://api.booking.tennis-buchs.ch/{Base Path}',
+            description: 'Production API server',
+            variables: {
+                'Base Path': {
+                    default: 'v1',
+                },
             },
         },
-        servers: [
-            {
-                url: 'http://localhost:5000/v1',
-                description: 'Local Testing for API Version 1',
+        {
+            url: 'https://api.staging.booking.tennis-buchs.ch/{Base Path}',
+            description: 'Staging API server',
+            variables: {
+                'Base Path': {
+                    default: 'v1',
+                },
             },
-            {
-                url: 'https://api.staging.booking.tennis-buchs.ch/v1',
-                description: 'Staging Testing for API Version 1',
+        },
+        {
+            url: 'https://booking-api-pr-{Pull Request Nr}.herokuapp.com/{Base Path}',
+            description: 'Pull request API server',
+            variables: {
+                'Pull Request Number': {
+                    default: '0',
+                    description: 'this value is assigned by the service provider, in this example `gigantic-server.com`',
+                },
+                'Base Path': {
+                    default: 'v1',
+                },
             },
-            {
-                url: 'https://api.booking.tennis-buchs.ch/v1',
-                description: 'Production for API Version 1',
+        },
+        {
+            url: 'http://localhost:5000/{Base Path}',
+            description: 'Local API server',
+            variables: {
+                'Base Path': {
+                    default: 'v1',
+                },
             },
-        ],
+        },
+    ],
+    security: {
+        JWTAuth: {
+            type: 'apiKey',
+            scheme: 'cookie',
+            name: 'test',
+            in: 'sAccessToken'
+        },
     },
-    apis: ['./routes/**/*.js'],
+    filesPattern: './routes/**/*.ts',
+    baseDir: __dirname,
+    swaggerUIPath: '/docs',
+    exposeSwaggerUI: true,
+    exposeApiDocs: false,
+    notRequiredAsNullable: false,
 };
 
-const specs = swaggerJsdoc(options);
-app.use('/v1/docs', swaggerUi.serve, swaggerUi.setup(specs, { explorer: true }));
+expressJSDocSwagger(app)(options);
 
 app.use(bodyParser.json());
 app.use(
@@ -190,17 +227,17 @@ const limiter = rateLimit({
 
 app.use(limiter);
 
-app.use('/v1/', pub);
-
 app.use(cors({
-    origin: uiHosts,
+    origin: [...uiHosts, ...apiHosts],
     allowedHeaders: ['content-type', ...supertokens.getAllCORSHeaders()],
     credentials: true,
 }));
 
+app.use('/v1/', v1pub);
+
 app.use(middleware());
 
-app.use('/v1/secure/', verifySession(), sec);
+app.use('/v1/secure/', verifySession(), v1sec);
 
 app.use(errorHandler());
 
