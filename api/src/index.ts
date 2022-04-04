@@ -228,7 +228,7 @@ const limiter = rateLimit({
 app.use(limiter);
 
 app.use(cors({
-    origin: uiHosts,
+    origin: [...uiHosts, ...apiHosts],
     allowedHeaders: ['content-type', ...supertokens.getAllCORSHeaders()],
     credentials: true,
 }));
