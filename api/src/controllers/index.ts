@@ -17,4 +17,4 @@ const courts = async (req: SessionRequest, res: Express.Response) => {
     res.status(200).send(users);
 };
 
-export {ping, pong, courts};
+export { ping, pong, courts };
