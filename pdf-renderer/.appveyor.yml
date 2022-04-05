@@ -8,5 +8,5 @@ install:
 build: false
 
 test_script:
-  - cd ui/pdf-renderer
+  - cd pdf-renderer
   - cargo test
