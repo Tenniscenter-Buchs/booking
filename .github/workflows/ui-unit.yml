@@ -29,6 +29,9 @@ jobs:
 
             - name: Install test dependencies
               run: npm ci --workspace ui
+    
+            - name: wasm-pack-action
+              uses: jetli/wasm-pack-action@v0.3.0
 
             - name: Run production build
               run: npm run build --workspace ui
