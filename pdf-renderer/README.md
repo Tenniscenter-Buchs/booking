@@ -1,6 +1,6 @@
 | master       | develop   |
 |--------------|-----------|
-| [![Build status](https://ci.appveyor.com/api/projects/status/vmn24pm6dikkek8w/branch/develop?svg=true)](https://ci.appveyor.com/project/D3PSI/booking/branch/develop) | [![Build status](https://ci.appveyor.com/api/projects/status/vmn24pm6dikkek8w/branch/develop?svg=true)](https://ci.appveyor.com/project/D3PSI/booking/branch/develop) |
+| [![Build status](https://ci.appveyor.com/api/projects/status/vmn24pm6dikkek8w/branch/master?svg=true)](https://ci.appveyor.com/project/D3PSI/booking/branch/master) | [![Build status](https://ci.appveyor.com/api/projects/status/vmn24pm6dikkek8w/branch/develop?svg=true)](https://ci.appveyor.com/project/D3PSI/booking/branch/develop) |
 
 <div align="center">
 
