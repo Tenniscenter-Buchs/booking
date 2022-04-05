@@ -84,10 +84,10 @@ const options = {
             },
         },
         {
-            url: 'https://booking-api-pr-{Pull Request Nr}.herokuapp.com/{Base Path}',
+            url: 'https://booking-api-pr-{Pull Request}.herokuapp.com/{Base Path}',
             description: 'Pull request API server',
             variables: {
-                'Pull Request Number': {
+                'Pull Request': {
                     default: '0',
                     description: 'this value is assigned by the service provider, in this example `gigantic-server.com`',
                 },
