@@ -2,8 +2,6 @@ import 'reflect-metadata';
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import swaggerJsdoc from 'swagger-jsdoc';
-import swaggerUi from 'swagger-ui-express';
 import rateLimit from 'express-rate-limit';
 import { AppDataSource } from './data-source';
 import { v1pub } from './routes';
@@ -238,6 +236,10 @@ app.use('/v1/', v1pub);
 app.use(middleware());
 
 app.use('/v1/secure/', verifySession(), v1sec);
+
+app.get('/', (req, res)  => {
+    res.redirect('/docs');
+});
 
 app.use(errorHandler());
 
