@@ -13,21 +13,6 @@
         "cypress:test": "npm run pdf-renderer:build && concurrently -k -s first 'npm start' 'npm run cypress:run'",
         "pdf-renderer:build": "cd ../pdf-renderer && wasm-pack build"
     },
-    "nx": {
-        "targets": {
-            "nx:build": {
-            },
-            "test": {
-                "outputs": [],
-                "dependsOn": [
-                    {
-                        "target": "nx:build",
-                        "projects": "self"
-                    }
-                ]
-            }
-        }
-    },
     "dependencies": {
         "@chakra-ui/icons": "^1.1.7",
         "@chakra-ui/react": "^1.8.6",
