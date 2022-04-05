@@ -238,7 +238,7 @@ app.use(middleware());
 app.use('/v1/secure/', verifySession(), v1sec);
 
 app.get('/', (req, res)  => {
-    res.redirect('/docs');
+    res.redirect('/docs/');
 });
 
 app.use(errorHandler());
