@@ -8,6 +8,3 @@ if [[ -z ${BOOKING_COMPONENT} ]]; then
 else
     npm run build --workspace ${BOOKING_COMPONENT}
 fi
-if [[ "${BOOKING_COMPONENT}" == "ui" ]]; then
-    (cd pdf-renderer && wasm-pack build)
-fi

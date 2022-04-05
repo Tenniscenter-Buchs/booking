@@ -2,7 +2,7 @@
     "addons": ["heroku-postgresql:hobby-dev"],
     "buildpacks": [
         {
-            "url": "heroku buildpacks:add --index 1 https://github.com/solana-labs/heroku-buildpack-rust-wasm-pack.git"
+            "url": "https://github.com/solana-labs/heroku-buildpack-rust-wasm-pack.git"
         },
         {
             "url": "heroku/nodejs"
