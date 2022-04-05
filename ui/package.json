@@ -5,6 +5,7 @@
     "scripts": {
         "dev": "npm run pdf-renderer:build && concurrently -n next,jest \"next dev\" \"jest -c test/jest.config.js --watchAll --verbose --coverage\"",
         "build": "npm run pdf-renderer:build && next build",
+        "nx:build": "next build",
         "start": "next start",
         "test": "jest -c test/jest.config.js --verbose --coverage",
         "cypress:open": "cypress open",
