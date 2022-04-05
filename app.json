@@ -2,6 +2,9 @@
     "addons": ["heroku-postgresql:hobby-dev"],
     "buildpacks": [
         {
+            "url": "emk/rust"
+        },
+        {
             "url": "heroku/nodejs"
         },
         {
