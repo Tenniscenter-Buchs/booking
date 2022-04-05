@@ -3,6 +3,7 @@
 | [![api-unit](https://github.com/Tenniscenter-Buchs/booking/actions/workflows/api-unit.yml/badge.svg?branch=master)](https://github.com/Tenniscenter-Buchs/booking/actions/workflows/api-unit.yml) | [![api-unit](https://github.com/Tenniscenter-Buchs/booking/actions/workflows/api-unit.yml/badge.svg?branch=develop)](https://github.com/Tenniscenter-Buchs/booking/actions/workflows/api-unit.yml) |
 | [![ui-unit](https://github.com/Tenniscenter-Buchs/booking/actions/workflows/ui-unit.yml/badge.svg?branch=master)](https://github.com/Tenniscenter-Buchs/booking/actions/workflows/ui-unit.yml) | [![ui-unit](https://github.com/Tenniscenter-Buchs/booking/actions/workflows/ui-unit.yml/badge.svg?branch=develop)](https://github.com/Tenniscenter-Buchs/booking/actions/workflows/ui-unit.yml) |
 | [![ui-e2e](https://github.com/Tenniscenter-Buchs/booking/actions/workflows/ui-e2e.yml/badge.svg?branch=master)](https://github.com/Tenniscenter-Buchs/booking/actions/workflows/ui-e2e.yml) | [![ui-e2e](https://github.com/Tenniscenter-Buchs/booking/actions/workflows/ui-e2e.yml/badge.svg?branch=develop)](https://github.com/Tenniscenter-Buchs/booking/actions/workflows/ui-e2e.yml) |
+| [![Build status](https://ci.appveyor.com/api/projects/status/vmn24pm6dikkek8w/branch/develop?svg=true)](https://ci.appveyor.com/project/D3PSI/booking/branch/develop) | [![Build status](https://ci.appveyor.com/api/projects/status/vmn24pm6dikkek8w/branch/develop?svg=true)](https://ci.appveyor.com/project/D3PSI/booking/branch/develop) |
 
 # booking
 the monorepo behind tenniscenter buchs' new booking system
