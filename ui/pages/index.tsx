@@ -14,6 +14,7 @@ const Main: React.FC = () => {
     const pdfRenderer = usePdfRenderer();
 
     useEffect(() => {
+        pdfRenderer.greet();
         if (loggedIn) {
             Router.push("/dashboard");
         }

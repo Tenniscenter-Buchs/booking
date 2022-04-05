@@ -1,12 +1,6 @@
 import { useEffect, useState } from "react";
+import * as wasm from "../../../../pdf-renderer/pkg/pdf_renderer_bg.wasm";
 
 export const usePdfRenderer = () => {
-    const [cached, setCached] = useState(false);
-    const [pdfRenderer, setPdfRenderer] = useState({});
-    useEffect(() => {
-        if (cached) return;
-        fetch("wasm/pdf-renderer.wasm").then((mod) => setPdfRenderer(mod));
-        setCached(true);
-    }, [cached]);
-    return pdfRenderer;
+    return wasm;
 }
