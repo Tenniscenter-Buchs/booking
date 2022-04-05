@@ -1,6 +1,12 @@
+import { useEffect, useState } from "react";
+
 export const usePdfRenderer = () => {
-    if (typeof window === 'undefined') return;
-    let pdfRenderer;
-    fetch("wasm/pdf-renderer.wasm").then((mod) => pdfRenderer = mod);
+    const [cached, setCached] = useState(false);
+    const [pdfRenderer, setPdfRenderer] = useState({});
+    useEffect(() => {
+        if (cached) return;
+        fetch("wasm/pdf-renderer.wasm").then((mod) => setPdfRenderer(mod));
+        setCached(true);
+    }, [cached]);
     return pdfRenderer;
 }
