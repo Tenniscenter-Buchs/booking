@@ -9,4 +9,4 @@ build: false
 
 test_script:
   - cd ui/pdf-renderer
-  - cargo test --locked
+  - cargo test
