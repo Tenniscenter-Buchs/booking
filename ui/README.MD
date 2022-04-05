@@ -2,6 +2,7 @@
 |--------------|-----------|
 | [![ui-unit](https://github.com/Tenniscenter-Buchs/booking/actions/workflows/ui-unit.yml/badge.svg?branch=master)](https://github.com/Tenniscenter-Buchs/booking/actions/workflows/ui-unit.yml) | [![ui-unit](https://github.com/Tenniscenter-Buchs/booking/actions/workflows/ui-unit.yml/badge.svg?branch=develop)](https://github.com/Tenniscenter-Buchs/booking/actions/workflows/ui-unit.yml) |
 | [![ui-e2e](https://github.com/Tenniscenter-Buchs/booking/actions/workflows/ui-e2e.yml/badge.svg?branch=master)](https://github.com/Tenniscenter-Buchs/booking/actions/workflows/ui-e2e.yml) | [![ui-e2e](https://github.com/Tenniscenter-Buchs/booking/actions/workflows/ui-e2e.yml/badge.svg?branch=develop)](https://github.com/Tenniscenter-Buchs/booking/actions/workflows/ui-e2e.yml) |
+| [![pdf-renderer-unit](https://ci.appveyor.com/api/projects/status/vmn24pm6dikkek8w/branch/master?svg=true)](https://ci.appveyor.com/project/D3PSI/booking/branch/master) | [![pdf-renderer-unit](https://ci.appveyor.com/api/projects/status/vmn24pm6dikkek8w/branch/develop?svg=true)](https://ci.appveyor.com/project/D3PSI/booking/branch/develop) |
 
 # booking-ui
 
