@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Header, Hero, LogoBlank } from "@components";
 import { ScaleFade } from '@chakra-ui/react'
 
-import { useLoginStatus } from "@hooks";
+import { useLoginStatus, usePdfRenderer } from "@hooks";
 
 import Router from 'next/router'
 
@@ -11,6 +11,7 @@ const Main: React.FC = () => {
     const [done, setDone] = useState(false);
 
     const loggedIn = useLoginStatus();
+    const pdfRenderer = usePdfRenderer();
 
     useEffect(() => {
         if (loggedIn) {

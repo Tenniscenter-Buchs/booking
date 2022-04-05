@@ -11,7 +11,7 @@
         "cypress:open": "cypress open",
         "cypress:run": "cypress run",
         "cypress:test": "npm run pdf-renderer:build && concurrently -k -s first 'npm start' 'npm run cypress:run'",
-        "pdf-renderer:build": "cd ../pdf-renderer && wasm-pack build"
+        "pdf-renderer:build": "cd ../pdf-renderer && wasm-pack build && cp pkg/pdf_renderer_bg.wasm ../ui/public/wasm/pdf-renderer.wasm"
     },
     "dependencies": {
         "@chakra-ui/icons": "^1.1.7",
