@@ -7,7 +7,8 @@
         "build": "./scripts/build.sh",
         "start": "concurrently -n ui,api \"npm start --workspace ui\" \"npm start --workspace api\"",
         "dev": "concurrently -n ui,api \"npm run dev --workspace ui\" \"npm run dev --workspace api\"",
-        "db:migrate": "npm run db:migrate --workspace api"
+        "db:migrate": "npm run db:migrate --workspace api",
+        "heroku-prebuild": "npm run pdf-renderer:build --workspace ui"
     },
     "repository": {
         "type": "git",

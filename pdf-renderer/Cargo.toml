@@ -1,5 +1,5 @@
 [package]
-name = "pdf-renderer"
+name = "pdf-renderer-d3psi"
 version = "0.1.0"
 authors = ["Cedric Schwyter <cedricschwyter@bluewin.ch>"]
 edition = "2018"
