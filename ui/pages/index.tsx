@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { LogoBlank } from "@components";
 import { ScaleFade } from '@chakra-ui/react'
 
-import { useLoginStatus, usePdfRenderer } from "@hooks";
+import { useLoginStatus, useWasmModule } from "@hooks";
 
 import Router from 'next/router'
 import dynamic from "next/dynamic";
@@ -19,13 +19,13 @@ const Main: React.FC = () => {
     const [done, setDone] = useState(false);
 
     const loggedIn = useLoginStatus();
-    const wasm = usePdfRenderer();
+    const wasm = useWasmModule("pdf-renderer-d3psi");
 
     useEffect(() => {
         if (loggedIn) {
             Router.push("/dashboard");
         }
-    });
+    }, [loggedIn]);
 
     return (
         <React.Fragment>
@@ -36,7 +36,6 @@ const Main: React.FC = () => {
                     <Hero />
                 </React.Fragment>
             </ScaleFade>
-            {wasm?.greet()}
         </React.Fragment>
     );
 };
