@@ -1,5 +1,6 @@
 const withPlugins = require("next-compose-plugins");
 
+// This entire configuration file using WasmChunksFixPlugin is because of https://github.com/vercel/next.js/issues/29362
 module.exports = withPlugins([], {
   webpack(config, { isServer, dev }) {
     config.experiments = {

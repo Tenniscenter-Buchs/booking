@@ -24,12 +24,6 @@ jobs:
               with:
                   node-version: ${{ matrix.node }}
 
-            - name: Install dependencies
-              run: npm i
-
-            - name: Install test dependencies
-              run: npm ci --workspace ui
-
             - name: wasm-pack-action
               uses: jetli/wasm-pack-action@v0.3.0
 
