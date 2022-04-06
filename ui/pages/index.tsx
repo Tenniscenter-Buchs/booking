@@ -11,10 +11,9 @@ const Main: React.FC = () => {
     const [done, setDone] = useState(false);
 
     const loggedIn = useLoginStatus();
-    const pdfRenderer = usePdfRenderer();
+    const wasm = usePdfRenderer();
 
     useEffect(() => {
-        pdfRenderer.greet();
         if (loggedIn) {
             Router.push("/dashboard");
         }
@@ -29,6 +28,7 @@ const Main: React.FC = () => {
                     <Hero />
                 </React.Fragment>
             </ScaleFade>
+            {wasm && wasm.greet()}
         </React.Fragment>
     );
 };

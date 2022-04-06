@@ -5,13 +5,12 @@
     "scripts": {
         "dev": "npm run pdf-renderer:build && concurrently -n next,jest \"next dev\" \"jest -c test/jest.config.js --watchAll --verbose --coverage\"",
         "build": "npm run pdf-renderer:build && next build",
-        "nx:build": "next build",
         "start": "next start",
         "test": "jest -c test/jest.config.js --verbose --coverage",
         "cypress:open": "cypress open",
         "cypress:run": "cypress run",
         "cypress:test": "npm run pdf-renderer:build && concurrently -k -s first 'npm start' 'npm run cypress:run'",
-        "pdf-renderer:build": "cd ../pdf-renderer && wasm-pack build && cp pkg/pdf_renderer_bg.wasm ../ui/public/wasm/pdf-renderer.wasm"
+        "pdf-renderer:build": "cd ../pdf-renderer && wasm-pack build && cd pkg && export PDF_TGZ_FILE=$(npm pack | tail -n 1) && cp $PDF_TGZ_FILE ../../ui/pdf-renderer-d3psi.tgz && cd ../../ui && npm i && rm -rf pdf-renderer-d3psi.tgz"
     },
     "dependencies": {
         "@chakra-ui/icons": "^1.1.7",
@@ -27,6 +26,7 @@
         "next-compose-plugins": "^2.2.1",
         "next-i18next": "^7.0.1",
         "nextjs-cors": "^2.1.0",
+        "pdf-renderer-d3psi": "file:pdf-renderer-d3psi.tgz",
         "react": "^17.0.2",
         "react-dom": "17.0.2",
         "react-icons": "^4.3.1",
