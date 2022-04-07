@@ -1,3 +1,4 @@
 export { useApi } from "./api";
 export { useLoginStatus } from "./security";
-export { usePdfRenderer } from "./pdf";
+export { useWasmModule } from "./wasm";
+export { usePromise } from "./promise";

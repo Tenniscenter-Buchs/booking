@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { LogoBlank } from "@components";
 import { ScaleFade } from '@chakra-ui/react'
 
-import { useLoginStatus, usePdfRenderer } from "@hooks";
+import { useLoginStatus } from "@hooks";
 
 import Router from 'next/router'
 import dynamic from "next/dynamic";
@@ -15,17 +15,19 @@ const Hero = dynamic(() =>
     import("@components/heros").then((lib) => lib.Hero as any)
 ) as typeof HeroType;
 
+import { greet } from "pdf-renderer-d3psi";
+
 const Main: React.FC = () => {
     const [done, setDone] = useState(false);
 
     const loggedIn = useLoginStatus();
-    const wasm = usePdfRenderer();
 
     useEffect(() => {
+        greet();
         if (loggedIn) {
             Router.push("/dashboard");
         }
-    });
+    }, [loggedIn]);
 
     return (
         <React.Fragment>
@@ -36,7 +38,6 @@ const Main: React.FC = () => {
                     <Hero />
                 </React.Fragment>
             </ScaleFade>
-            {wasm?.greet()}
         </React.Fragment>
     );
 };

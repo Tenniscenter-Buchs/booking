@@ -1,1 +1,1 @@
-export { Authenticator } from "./authenticator";
+export { Authenticator } from "./authenticators";
