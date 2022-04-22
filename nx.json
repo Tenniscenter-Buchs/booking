@@ -7,7 +7,6 @@
             "options": {
                 "cacheableOperations": [
                     "build",
-                    "nx:build",
                     "test",
                     "lint",
                     "package",
