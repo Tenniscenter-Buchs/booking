@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, JoinColumn , ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToOne } from 'typeorm';
 import { Address } from './Address';
 
 export enum UserRole {
@@ -31,11 +31,11 @@ export class User {
     })
     supertokensId: string;
 
-    @ManyToOne(() => Address)
+    @OneToOne(() => Address)
     @JoinColumn()
     residenceAddress: Address;
 
-    @ManyToOne(() => Address)
+    @OneToOne(() => Address)
     @JoinColumn()
     billingAddress: Address;
 

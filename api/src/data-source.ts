@@ -5,6 +5,7 @@ import { CourtReservation } from './entity/CourtReservation';
 import { CourtReservationSlot } from './entity/CourtReservationSlot';
 import { User } from './entity/User';
 import { Address } from './entity/Address';
+import { AuditEntry } from './entity/Audit';
 
 export const AppDataSource = new DataSource({
     'type': 'postgres',
@@ -16,7 +17,8 @@ export const AppDataSource = new DataSource({
         Court,
         CourtReservationSlot,
         CourtReservation,
-        Address
+        Address,
+        AuditEntry
     ],
     'migrations': [
         'migration/**/*.ts'
