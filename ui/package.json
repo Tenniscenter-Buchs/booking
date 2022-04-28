@@ -3,14 +3,16 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "dev": "npm run pdf-renderer:build && concurrently -n next,jest \"next dev\" \"jest -c test/jest.config.js --watchAll --verbose --coverage\"",
-        "build": "npm run pdf-renderer:build && next build",
+        "dev": "npm run pdf-renderer:install && concurrently -n next,jest \"next dev\" \"jest -c test/jest.config.js --watchAll --verbose --coverage\"",
+        "build": "npm run pdf-renderer:install && next build",
         "start": "next start",
         "test": "jest -c test/jest.config.js --verbose --coverage",
         "cypress:open": "cypress open",
         "cypress:run": "cypress run",
-        "cypress:test": "npm run pdf-renderer:build && concurrently -k -s first 'npm start' 'npm run cypress:run'",
-        "pdf-renderer:build": "cd ../pdf-renderer && wasm-pack build && cd pkg && export PDF_TGZ_FILE=$(npm pack | tail -n 1) && cp $PDF_TGZ_FILE ../../ui/pdf-renderer-d3psi.tgz && cd ../../ui && npm update && npm i && rm -rf pdf-renderer-d3psi.tgz"
+        "cypress:test": "npm run pdf-renderer:install && concurrently -k -s first 'npm start' 'npm run cypress:run'",
+        "pdf-renderer:package": "cd ../pdf-renderer && wasm-pack build && cd pkg && export PDF_TGZ_FILE=$(npm pack | tail -n 1) && cp $PDF_TGZ_FILE ../../ui/pdf-renderer-d3psi.tgz",
+        "pdf-renderer:install": "npm run pdf-renderer:package && npm update",
+        "preinstall": "npm run pdf-renderer:package"
     },
     "dependencies": {
         "pdf-renderer-d3psi": "file:pdf-renderer-d3psi.tgz",
