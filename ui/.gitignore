@@ -13,4 +13,4 @@ cypress/screenshots
 
 coverage/
 *.wasm
-pdf-renderer-d3psi.tgz
+pdf-renderer.tgz
