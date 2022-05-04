@@ -10,12 +10,12 @@
         "cypress:open": "cypress open",
         "cypress:run": "cypress run",
         "cypress:test": "npm run pdf-renderer:install && concurrently -k -s first 'npm start' 'npm run cypress:run'",
-        "pdf-renderer:package": "cd ../pdf-renderer && wasm-pack build && cd pkg && export PDF_TGZ_FILE=$(npm pack | tail -n 1) && cp $PDF_TGZ_FILE ../../ui/pdf-renderer-d3psi.tgz",
+        "pdf-renderer:package": "cd ../pdf-renderer && wasm-pack build && cd pkg && export PDF_TGZ_FILE=$(npm pack | tail -n 1) && cp $PDF_TGZ_FILE ../../ui/pdf-renderer.tgz",
         "pdf-renderer:install": "npm run pdf-renderer:package && npm update",
         "preinstall": "npm run pdf-renderer:package"
     },
     "dependencies": {
-        "pdf-renderer-d3psi": "file:pdf-renderer-d3psi.tgz",
+        "pdf-renderer": "file:pdf-renderer.tgz",
         "@chakra-ui/icons": "^1.1.7",
         "@chakra-ui/react": "^1.8.6",
         "@choc-ui/logo": "^1.0.0",

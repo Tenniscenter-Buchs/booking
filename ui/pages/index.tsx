@@ -15,7 +15,7 @@ const Hero = dynamic(() =>
     import("@components/heros").then((lib) => lib.Hero as any)
 ) as typeof HeroType;
 
-import { greet } from "pdf-renderer-d3psi";
+import { greet } from "pdf-renderer";
 
 const Main: React.FC = () => {
     const [done, setDone] = useState(false);
