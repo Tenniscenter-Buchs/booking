@@ -28,7 +28,7 @@ jobs:
               uses: jetli/wasm-pack-action@v0.3.0
 
             - name: Install dependencies
-              run: npm run pdf-renderer:package --workspace ui && npm install
+              run: npm run pdf-renderer:build --workspace ui && npm install
 
             - name: Run production build
               run: cp ui/.env.test ui/.env && npm run build --workspace ui
