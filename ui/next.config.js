@@ -1,7 +1,10 @@
 const withPlugins = require("next-compose-plugins");
+const withBundleAnalyzer = require("@next/bundle-analyzer");
+
+const bundleAnalyzer = withBundleAnalyzer({enabled: true});
 
 // This entire configuration file using WasmChunksFixPlugin is because of https://github.com/vercel/next.js/issues/29362
-module.exports = withPlugins([], {
+module.exports = withPlugins([bundleAnalyzer], {
   webpack(config, { isServer, dev }) {
     config.experiments = {
       asyncWebAssembly: true,
