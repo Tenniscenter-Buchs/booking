@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "description": "",
     "scripts": {
-        "test": "npm test --workspace booking-ui && npm test --workspace booking-api",
+        "test": "npm test --workspace booking-ui && npm test --workspace booking-api && npm run cypress:test --workspace booking-ui",
         "build": "./scripts/build.sh",
         "start": "concurrently -n booking-ui,booking-api \"npm start --workspace booking-ui\" \"npm start --workspace booking-api\"",
         "dev": "concurrently -n booking-ui,booking-api \"npm run dev --workspace booking-ui\" \"npm run dev --workspace booking-api\"",
