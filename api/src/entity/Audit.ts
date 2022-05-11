@@ -1,8 +1,11 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, Timestamp } from 'typeorm';
+import { AbstractEntity } from './AbstractEntity';
 import { User } from './User';
 
 export enum AuditEntryEvent {
-    USER_SIGNUP = 'user_signup',
+    USER_SIGNUP_INIT = 'user_signup_init',
+        USER_SIGNUP_COMPLETE = 'user_signup_complete',
+        USER_SIGNUP_FAILED = 'user_signup_failed',
         USER_INCONSISTENT_SIGNUP = 'user_inconsistent_signup',
         USER_EMAIL_VERIFIED = 'user_email_verified'
 }
@@ -17,10 +20,7 @@ export enum AuditEntryLevel {
 }
 
 @Entity('audit_log')
-export class AuditEntry {
-    @PrimaryGeneratedColumn()
-    id?: number;
-
+export class AuditEntry extends AbstractEntity {
     @ManyToOne(() => User)
     user: User;
 
@@ -33,12 +33,10 @@ export class AuditEntry {
     @Column({
         type: 'enum',
         enum: AuditEntryLevel,
+        default: AuditEntryLevel.INFO
     })
-    level: AuditEntryLevel;
+    level?: AuditEntryLevel;
 
     @Column()
     detail?: string;
-
-    @Column({type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
-    time?: Timestamp;
 }

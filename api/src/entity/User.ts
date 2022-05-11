@@ -1,48 +1,48 @@
-import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToOne } from 'typeorm';
+import { Entity, Column, JoinColumn, OneToOne } from 'typeorm';
+import { AbstractEntity } from './AbstractEntity';
 import { Address } from './Address';
 
 export enum UserRole {
-    ADMIN = 'admin',
+    SUPER_USER = 'super_user',
+        ADMIN = 'admin',
         END_USER = 'end_user'
 }
 
 @Entity('users')
-export class User {
-    @PrimaryGeneratedColumn()
-    id: number;
+export class User extends AbstractEntity {
+    @Column({nullable: true})
+    firstName?: string;
 
-    @Column()
-    firstName: string;
+    @Column({nullable: true})
+    lastName?: string;
 
-    @Column()
-    lastName: string;
-
-    @Column()
-    email: string;
+    @Column({nullable: true})
+    email?: string;
 
     @Column({default: false})
-    signupComplete: boolean;
+    signupComplete?: boolean;
 
     @Column({default: false})
-    emailVerified: boolean;
+    emailVerified?: boolean;
 
     @Column({
-        unique: true
+        unique: true,
+        nullable: true
     })
-    supertokensId: string;
+    supertokensId?: string;
 
     @OneToOne(() => Address)
     @JoinColumn()
-    residenceAddress: Address;
+    residenceAddress?: Address;
 
     @OneToOne(() => Address)
     @JoinColumn()
-    billingAddress: Address;
+    billingAddress?: Address;
 
     @Column({
         type: 'enum',
         enum: UserRole,
         default: UserRole.END_USER
     })
-    role: UserRole;
+    role?: UserRole;
 }

@@ -1,10 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, Column } from 'typeorm';
+import { AbstractEntity } from './AbstractEntity';
 
 @Entity('addresses')
-export class Address {
-    @PrimaryGeneratedColumn()
-    id: number;
-
+export class Address extends AbstractEntity{
     @Column()
     streetName: string;
 

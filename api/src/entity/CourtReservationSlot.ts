@@ -1,12 +1,9 @@
-import { Entity, ManyToOne, PrimaryGeneratedColumn, Column, Timestamp, JoinColumn } from 'typeorm'
+import { Entity, ManyToOne, Column, Timestamp, JoinColumn } from 'typeorm'
+import { AbstractEntity } from './AbstractEntity';
 import { Court } from './Court';
 
 @Entity('court_reservation_slots')
-export class CourtReservationSlot {
-
-    @PrimaryGeneratedColumn()
-    id: number;
-
+export class CourtReservationSlot extends AbstractEntity{
     @ManyToOne(() => Court, { nullable: false })
     @JoinColumn()
     court: Court;

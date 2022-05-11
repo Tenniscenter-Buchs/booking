@@ -3,7 +3,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import rateLimit from 'express-rate-limit';
-import { AppDataSource, audit } from './data-source';
+import { dataSource, error, info } from './data-source';
 import { v1pub } from './routes';
 import { v1sec } from './routes';
 
@@ -29,7 +29,7 @@ if (process.env.REVIEW_APP && process.env.NODE_ENV === 'production') {
 
 const initDataSource = async () => {
     try {
-        await AppDataSource.initialize();
+        await dataSource.initialize();
     } catch(e) {
         console.error(e);
     }
@@ -162,12 +162,12 @@ supertokens.init({
                                 const response = await originalImplementation.verifyEmailPOST(input);
                                 if (response.status === 'OK') {
                                     const { id, email } = response.user;
-                                    const user = await AppDataSource.getRepository(User).findOneBy({ supertokensId: id });
+                                    const user = await dataSource.getRepository(User).findOneBy({ supertokensId: id });
                                     if (user.email == email) {
                                         user.emailVerified = true;
                                     }
-                                    await AppDataSource.getRepository(User).save(user);
-                                    audit({user: user, type: AuditEntryEvent.USER_EMAIL_VERIFIED, level: AuditEntryLevel.INFO});
+                                    await dataSource.getRepository(User).save(user);
+                                    info({user: user, type: AuditEntryEvent.USER_EMAIL_VERIFIED});
                                 }
                                 return response;
                             }
@@ -180,14 +180,12 @@ supertokens.init({
                         emailPasswordSignUp: async function(input) {
                             const response = await originalImplementation.emailPasswordSignUp(input);
                             if (response.status === 'OK') {
-                                await AppDataSource
-                                    .createQueryBuilder()
-                                    .insert()
-                                    .into(User)
-                                    .values([
-                                        { supertokensId: response.user.id, email: response.user.email, firstName: '', lastName: '' },
-                                    ])
-                                    .execute();
+                                const user = dataSource
+                                    .getRepository(User)
+                                    .create({ supertokensId: response.user.id, email: response.user.email});
+                                info({user: user, type: AuditEntryEvent.USER_SIGNUP_INIT});
+                            } else {
+                                error({detail: JSON.stringify(response), type: AuditEntryEvent.USER_SIGNUP_FAILED, user: { email: input.email}});
                             }
                             return response;
                         },
@@ -202,7 +200,7 @@ supertokens.init({
                         ...originalImplementation,
                         createNewSession: async function(input) {
                             const userId = input.userId;
-                            const user = await AppDataSource.getRepository(User).findOneBy({ supertokensId: userId });
+                            const user = await dataSource.getRepository(User).findOneBy({ supertokensId: userId });
                             input.accessTokenPayload = {
                                 ...input.accessTokenPayload,
                                 role: user.role,
