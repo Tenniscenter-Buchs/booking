@@ -3,7 +3,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import rateLimit from 'express-rate-limit';
-import { AppDataSource } from './data-source';
+import { AppDataSource, audit } from './data-source';
 import { v1pub } from './routes';
 import { v1sec } from './routes';
 
@@ -19,6 +19,7 @@ import { errorHandler } from 'supertokens-node/framework/express';
 import { User } from './entity/User';
 
 import expressJSDocSwagger from 'express-jsdoc-swagger';
+import { AuditEntryEvent, AuditEntryLevel } from './entity/Audit';
 
 if (process.env.REVIEW_APP && process.env.NODE_ENV === 'production') {
     dotenv.config({path: process.cwd() + '/.env'});
@@ -166,6 +167,7 @@ supertokens.init({
                                         user.emailVerified = true;
                                     }
                                     await AppDataSource.getRepository(User).save(user);
+                                    audit({user: user, type: AuditEntryEvent.USER_EMAIL_VERIFIED, level: AuditEntryLevel.INFO});
                                 }
                                 return response;
                             }

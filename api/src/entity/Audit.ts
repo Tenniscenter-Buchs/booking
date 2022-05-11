@@ -3,7 +3,8 @@ import { User } from './User';
 
 export enum AuditEntryEvent {
     USER_SIGNUP = 'user_signup',
-        USER_INCONSISTENT_SIGNUP = 'user_inconsistent_signup'
+        USER_INCONSISTENT_SIGNUP = 'user_inconsistent_signup',
+        USER_EMAIL_VERIFIED = 'user_email_verified'
 }
 
 export enum AuditEntryLevel {
@@ -18,7 +19,7 @@ export enum AuditEntryLevel {
 @Entity('audit_log')
 export class AuditEntry {
     @PrimaryGeneratedColumn()
-    id: number;
+    id?: number;
 
     @ManyToOne(() => User)
     user: User;
@@ -36,8 +37,8 @@ export class AuditEntry {
     level: AuditEntryLevel;
 
     @Column()
-    detail: string;
+    detail?: string;
 
     @Column({type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
-    time: Timestamp;
+    time?: Timestamp;
 }

@@ -24,3 +24,7 @@ export const AppDataSource = new DataSource({
         'migration/**/*.ts'
     ]
 });
+
+export const audit = (entry: AuditEntry) => {
+    AppDataSource.getRepository(AuditEntry).create(entry);
+};
