@@ -9,7 +9,7 @@
         "dev": "concurrently -n ui,api \"npm run dev --workspace ui\" \"npm run dev --workspace api\"",
         "db:migrate": "npm run db:migrate --workspace api",
         "preinstall": "npm run pdf-renderer:package --workspace ui",
-        "heroku-prebuild": "npm run pdf-renderer:package --workspace ui"
+        "heroku-prebuild": "npm run pdf-renderer:install --workspace ui"
     },
     "repository": {
         "type": "git",
