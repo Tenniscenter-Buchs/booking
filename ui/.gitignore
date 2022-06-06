@@ -10,3 +10,7 @@ node_modules
 
 cypress/videos
 cypress/screenshots
+
+coverage/
+*.wasm
+pdf-renderer.tgz

@@ -24,11 +24,11 @@ jobs:
               with:
                   node-version: ${{ matrix.node }}
 
-            - name: Install dependencies
-              run: npm i
+            - name: wasm-pack-action
+              uses: jetli/wasm-pack-action@v0.3.0
 
-            - name: Install test dependencies
-              run: npm ci --workspace ui
+            - name: Install dependencies
+              run: npm run pdf-renderer:install --workspace ui && npm install
 
             - name: Run production build
               run: npm run build --workspace ui

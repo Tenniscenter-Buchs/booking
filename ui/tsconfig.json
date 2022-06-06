@@ -6,12 +6,14 @@
             "dom.iterable",
             "esnext"
         ],
+        "sourceMap": true,
         "allowJs": true,
         "skipLibCheck": true,
         "strict": true,
         "forceConsistentCasingInFileNames": true,
         "noEmit": true,
         "esModuleInterop": true,
+        "noImplicitAny": false,
         "module": "esnext",
         "moduleResolution": "node",
         "resolveJsonModule": true,
@@ -42,6 +44,12 @@
             ],
             "@security": [
                 "src/security"
+            ],
+            "@transfer/*": [
+                "src/transfer/*"
+            ],
+            "@transfer": [
+                "src/transfer"
             ],
             "@public/*": [
                 "public/*"

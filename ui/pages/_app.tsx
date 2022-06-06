@@ -10,19 +10,23 @@ import { appWithTranslation } from "@i18n";
 import SuperTokensReact from 'supertokens-auth-react'
 
 import { frontendConfig } from '../config/frontendConfig'
+import { Favicons } from "@components/icons";
 
 if (typeof window !== 'undefined') {
     SuperTokensReact.init(frontendConfig())
 }
 
-function MyApp({ Component, pageProps }: AppProps): JSX.Element {
+function BookingApp({ Component, pageProps }: AppProps): JSX.Element {
     return (
-        <ChakraProvider theme={theme}>
-            <Provider store={store}>
-                <Component {...pageProps} />
-            </Provider>
-        </ChakraProvider>
+        <React.StrictMode>
+            <ChakraProvider theme={theme}>
+                <Provider store={store}>
+                    <Favicons initialTitle="Tenniscenter Buchs | Booking" />
+                    <Component {...pageProps} />
+                </Provider>
+            </ChakraProvider>
+        </React.StrictMode>
     );
 }
 
-export default MyApp;
+export default BookingApp;

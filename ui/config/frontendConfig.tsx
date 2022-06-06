@@ -7,13 +7,8 @@ export const frontendConfig = () => {
         appInfo,
         recipeList: [
             ThirdPartyEmailPasswordReact.init({
-                signInAndUpFeature: {
-                    providers: [
-                        ThirdPartyEmailPasswordReact.Google.init(),
-                        ThirdPartyEmailPasswordReact.Github.init(),
-                        ThirdPartyEmailPasswordReact.Apple.init(),
-                    ],
-                },
+                useShadowDom: false,
+                emailVerificationFeature: { mode: "REQUIRED" }
             }),
             SessionReact.init(),
         ],
