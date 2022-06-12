@@ -1,1 +1,2 @@
 web: npm start --workspace api
+release: node bin/release.js
