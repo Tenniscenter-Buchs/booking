@@ -15,8 +15,8 @@ jobs:
     - name: wasm-pack-action
       uses: jetli/wasm-pack-action@v0.3.0
     - name: WASM Pack Build
-      run: cd ui/pdf-renderer && wasm-pack build
+      run: cd booking-ui/pdf-renderer && wasm-pack build
     - name: Cargo Build
-      run: cd ui/pdf-renderer && cargo build --verbose
+      run: cd booking-ui/pdf-renderer && cargo build --verbose
     - name: Run tests
-      run: cd ui/pdf-renderer && cargo test --verbose
+      run: cd booking-ui/pdf-renderer && cargo test --verbose
