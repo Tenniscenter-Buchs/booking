@@ -25,7 +25,7 @@ jobs:
           node-version: '16'
       - name: wasm-pack-action
         uses: jetli/wasm-pack-action@v0.3.0
-      - run: npm run pdf-renderer:install --workspace ui
+      - run: npm run pdf-renderer:install --workspace booking-ui
       - run: npm install
       - run: npx nx-cloud start-ci-run    
       - run: npx nx affected --target=build --parallel --max-parallel=3
@@ -48,7 +48,7 @@ jobs:
           node-version: '16'
       - name: wasm-pack-action
         uses: jetli/wasm-pack-action@v0.3.0
-      - run: npm run pdf-renderer:install --workspace ui
+      - run: npm run pdf-renderer:install --workspace booking-ui
       - run: npm install
       - run: npx nx-cloud start-ci-run
       - run: npx nx affected --target=build --parallel --max-parallel=3
@@ -68,7 +68,7 @@ jobs:
           node-version: '16'
       - name: wasm-pack-action
         uses: jetli/wasm-pack-action@v0.3.0
-      - run: npm run pdf-renderer:install --workspace ui
+      - run: npm run pdf-renderer:install --workspace booking-ui
       - run: npm install
       - name: Start Nx Agent ${{ matrix.agent }}
         run: npx nx-cloud start-agent 

@@ -3,13 +3,13 @@
     "version": "1.0.0",
     "description": "",
     "scripts": {
-        "test": "npm test --workspace ui && npm test --workspace api",
+        "test": "npm test --workspace booking-ui && npm test --workspace booking-api",
         "build": "./scripts/build.sh",
-        "start": "concurrently -n ui,api \"npm start --workspace ui\" \"npm start --workspace api\"",
-        "dev": "concurrently -n ui,api \"npm run dev --workspace ui\" \"npm run dev --workspace api\"",
-        "db:migrate": "npm run db:migrate --workspace api",
-        "preinstall": "npm run pdf-renderer:package --workspace ui",
-        "heroku-prebuild": "npm run pdf-renderer:install --workspace ui"
+        "start": "concurrently -n booking-ui,booking-api \"npm start --workspace booking-ui\" \"npm start --workspace booking-api\"",
+        "dev": "concurrently -n booking-ui,booking-api \"npm run dev --workspace booking-ui\" \"npm run dev --workspace booking-api\"",
+        "db:migrate": "npm run db:migrate --workspace booking-api",
+        "preinstall": "npm run pdf-renderer:package --workspace booking-ui",
+        "heroku-prebuild": "npm run pdf-renderer:install --workspace booking-ui"
     },
     "repository": {
         "type": "git",
@@ -22,8 +22,8 @@
     },
     "homepage": "https://github.com/Tenniscenter-Buchs/booking#readme",
     "workspaces": [
-        "ui",
-        "api"
+        "booking-ui",
+        "booking-api"
     ],
     "devDependencies": {
         "@nrwl/cli": "latest",
