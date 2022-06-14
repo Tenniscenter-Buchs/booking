@@ -3,7 +3,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import rateLimit from 'express-rate-limit';
-import { dataSource, error, info } from './data-source';
+import { dataSource, error, info } from './dataSource';
 import { v1pub } from './routes';
 import { v1sec } from './routes';
 
@@ -19,7 +19,7 @@ import { errorHandler } from 'supertokens-node/framework/express';
 import { User } from './entity/User';
 
 import expressJSDocSwagger from 'express-jsdoc-swagger';
-import { AuditEntryEvent, AuditEntryLevel } from './entity/Audit';
+import { AuditEntryEvent } from './entity/Audit';
 
 if (process.env.REVIEW_APP && process.env.NODE_ENV === 'production') {
     dotenv.config({path: process.cwd() + '/.env'});
