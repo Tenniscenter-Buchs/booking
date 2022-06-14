@@ -28,10 +28,10 @@ jobs:
               uses: jetli/wasm-pack-action@v0.3.0
 
             - name: Install dependencies
-              run: npm run pdf-renderer:install --workspace ui && npm install
+              run: npm run pdf-renderer:install --workspace booking-ui && npm install
 
             - name: Run production build
-              run: npm run build --workspace ui
+              run: npm run build --workspace booking-ui
 
             - name: Run unit tests
-              run: npm run test --workspace ui
+              run: npm run test --workspace booking-ui
